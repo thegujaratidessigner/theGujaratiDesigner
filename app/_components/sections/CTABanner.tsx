@@ -9,7 +9,7 @@ export default function CTABanner() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-[#0d0d0d]">
+    <section ref={ref} className="py-24 px-6 bg-background">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -48,7 +48,7 @@ export default function CTABanner() {
             >
               Unique & Trendy Design
               <br />
-              Approach — Let's Talk.
+              Approach — Let&apos;s Talk.
             </h2>
           </div>
           <Link

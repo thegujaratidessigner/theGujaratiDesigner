@@ -36,7 +36,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section ref={ref} className="py-32 px-6 bg-[#0d0d0d]">
+    <section ref={ref} className="py-32 px-6 bg-background">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -49,7 +49,7 @@ export default function FAQ() {
             The Gujarati Designer
           </p>
           <h2
-            className="text-4xl md:text-5xl font-extrabold leading-tight"
+            className="text-4xl md:text-5xl font-extrabold leading-tight text-foreground"
             style={{ fontFamily: "var(--font-syne)" }}
           >
             Frequently Asked
@@ -75,7 +75,7 @@ export default function FAQ() {
               className={`rounded-2xl border transition-colors duration-300 overflow-hidden ${
                 openIndex === i
                   ? "border-[#7c3aed]/40 bg-[#7c3aed]/5"
-                  : "border-white/8 bg-white/3 hover:border-white/15"
+                  : "border-[var(--border-color)] bg-[var(--card-bg)] hover:border-foreground/15"
               }`}
             >
               <button
@@ -83,7 +83,7 @@ export default function FAQ() {
                 className="w-full flex items-center justify-between gap-4 p-6 text-left"
               >
                 <span
-                  className="font-semibold text-white text-sm md:text-base"
+                  className="font-semibold text-foreground text-sm md:text-base"
                   style={{ fontFamily: "var(--font-syne)" }}
                 >
                   {faq.q}
@@ -91,7 +91,7 @@ export default function FAQ() {
                 <motion.span
                   animate={{ rotate: openIndex === i ? 45 : 0 }}
                   transition={{ duration: 0.2 }}
-                  className="shrink-0 w-7 h-7 rounded-full border border-white/15 flex items-center justify-center text-[#a1a1aa]"
+                  className="shrink-0 w-7 h-7 rounded-full border border-foreground/15 flex items-center justify-center text-muted"
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path
@@ -112,7 +112,7 @@ export default function FAQ() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <p className="px-6 pb-6 text-[#a1a1aa] text-sm leading-relaxed">
+                    <p className="px-6 pb-6 text-muted text-sm leading-relaxed">
                       {faq.a}
                     </p>
                   </motion.div>

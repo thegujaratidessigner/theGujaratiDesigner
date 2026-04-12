@@ -19,7 +19,8 @@ export default function About() {
     visible: { transition: { staggerChildren: 0.1 } },
   };
 
-  const itemVariants = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
@@ -32,7 +33,7 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="relative py-32 px-6 bg-[#0d0d0d] overflow-hidden"
+      className="relative py-32 px-6 bg-background overflow-hidden"
     >
       {/* Subtle accent */}
       <div
@@ -63,7 +64,7 @@ export default function About() {
           <div>
             <motion.h2
               variants={itemVariants}
-              className="text-4xl md:text-5xl font-extrabold leading-tight mb-6"
+              className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-foreground"
               style={{ fontFamily: "var(--font-syne)" }}
             >
               A Global Creative Studio
@@ -75,7 +76,7 @@ export default function About() {
 
             <motion.p
               variants={itemVariants}
-              className="text-[#a1a1aa] text-lg leading-relaxed mb-6"
+              className="text-muted text-lg leading-relaxed mb-6"
             >
               Founded on 9th February 2018 by Kunal Thacker, The Gujarati
               Designer is a globally serving creative design studio. With over 9
@@ -86,7 +87,7 @@ export default function About() {
 
             <motion.p
               variants={itemVariants}
-              className="text-[#a1a1aa] text-lg leading-relaxed"
+              className="text-muted text-lg leading-relaxed"
             >
               We specialise in transforming ideas into powerful brand identities
               through professional logo design, branding, graphic design, website
@@ -103,13 +104,13 @@ export default function About() {
                 key={item.label}
                 variants={itemVariants}
                 custom={i}
-                className="p-6 rounded-2xl border border-white/8 bg-white/3 hover:border-[#7c3aed]/40 transition-colors duration-300"
+                className="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[#7c3aed]/40 transition-colors duration-300"
               >
-                <p className="text-xs text-[#a1a1aa] tracking-widest uppercase mb-2">
+                <p className="text-xs text-muted tracking-widest uppercase mb-2">
                   {item.label}
                 </p>
                 <p
-                  className="text-2xl font-bold text-white"
+                  className="text-2xl font-bold text-foreground"
                   style={{ fontFamily: "var(--font-syne)" }}
                 >
                   {item.value}
@@ -125,7 +126,7 @@ export default function About() {
               <p className="text-xs text-[#a855f7] tracking-widest uppercase mb-2">
                 Our Mission
               </p>
-              <p className="text-white font-medium leading-relaxed">
+              <p className="text-foreground font-medium leading-relaxed">
                 We believe design is a business tool — meant to communicate,
                 influence, and convert. Every brand we build drives real results.
               </p>

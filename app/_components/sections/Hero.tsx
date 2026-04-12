@@ -24,7 +24,8 @@ export default function Hero() {
     visible: { transition: { staggerChildren: 0.12 } },
   };
 
-  const itemVariants = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
@@ -34,14 +35,13 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0d0d0d]">
+    <section className="relative min-h-screen flex flex-col items-center overflow-hidden bg-background">
       {/* Background gradient orbs */}
       <div
         aria-hidden
         className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, #7c3aed 0%, transparent 70%)",
+          background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
@@ -49,8 +49,7 @@ export default function Hero() {
         aria-hidden
         className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(circle, #ec4899 0%, transparent 70%)",
+          background: "radial-gradient(circle, #ec4899 0%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
@@ -61,7 +60,7 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage:
-            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
       />
@@ -71,12 +70,12 @@ export default function Hero() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
+        className="relative z-10 max-w-6xl mx-auto text-center pt-36"
       >
         {/* Badge */}
         <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
           <span className="w-2 h-2 rounded-full bg-[#a855f7] animate-pulse" />
-          <span className="text-sm text-[#a1a1aa] tracking-widest uppercase">
+          <span className="text-sm text-muted tracking-widest uppercase">
             Creative Design Studio · Ahmedabad
           </span>
         </motion.div>
@@ -84,12 +83,13 @@ export default function Hero() {
         {/* Headline */}
         <motion.h1
           variants={itemVariants}
-          className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight mb-4"
+          className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.0] tracking-tight mb-6 text-foreground"
           style={{ fontFamily: "var(--font-syne)" }}
         >
           We Design Brands
           <br />
-          That{" "}
+          That
+          <br />
           <span className="relative inline-block overflow-hidden align-bottom h-[1.1em]">
             <AnimatedWord word={rotatingWords[wordIndex]} />
           </span>
@@ -98,7 +98,7 @@ export default function Hero() {
         {/* Subtext */}
         <motion.p
           variants={itemVariants}
-          className="text-lg md:text-xl text-[#a1a1aa] max-w-2xl mx-auto mt-6 leading-relaxed"
+          className="text-lg md:text-xl text-muted max-w-3xl mx-auto mt-8 leading-relaxed"
         >
           From logo design to full-scale digital branding — The Gujarati
           Designer crafts visual identities that make your business unforgettable.
@@ -107,7 +107,7 @@ export default function Hero() {
         {/* CTAs */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12"
         >
           <Link
             href="#portfolio"
@@ -117,7 +117,7 @@ export default function Hero() {
           </Link>
           <Link
             href="#contact"
-            className="px-8 py-4 rounded-full border border-white/15 hover:border-white/30 text-white font-semibold text-sm tracking-wide transition-all duration-200 hover:bg-white/5"
+            className="px-8 py-4 rounded-full border border-foreground/15 hover:border-foreground/30 text-foreground font-semibold text-sm tracking-wide transition-all duration-200 hover:bg-foreground/5"
           >
             Get In Touch
           </Link>
@@ -126,7 +126,7 @@ export default function Hero() {
         {/* Stats */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center justify-center gap-10 mt-16 pt-10 border-t border-white/5"
+          className="flex items-center justify-center gap-16 mt-14 pt-8 border-t border-[var(--border-subtle)]"
         >
           {[
             { value: "9+", label: "Years Experience" },
@@ -135,12 +135,12 @@ export default function Hero() {
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <p
-                className="text-3xl font-bold text-white"
+                className="text-3xl font-bold text-foreground"
                 style={{ fontFamily: "var(--font-syne)" }}
               >
                 {stat.value}
               </p>
-              <p className="text-xs text-[#a1a1aa] mt-1 tracking-wide">
+              <p className="text-xs text-muted mt-1 tracking-wide">
                 {stat.label}
               </p>
             </div>
@@ -153,9 +153,9 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-xs text-[#a1a1aa] tracking-widest uppercase">
+        <span className="text-xs text-muted tracking-widest uppercase">
           Scroll
         </span>
         <motion.div

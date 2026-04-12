@@ -5,32 +5,65 @@ import { motion, useInView } from "framer-motion";
 
 const services = [
   {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="5" stroke="currentColor" strokeWidth="1.8"/>
+        <path d="M14 3v3M14 22v3M3 14h3M22 14h3M6.22 6.22l2.12 2.12M19.66 19.66l2.12 2.12M19.66 6.22l-2.12 2.12M6.22 19.66l2.12 2.12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+      </svg>
+    ),
     number: "01",
     title: "Logo Design & Graphic Design",
     description:
       "We build brand identities that are creative, unique, and memorable — from logo systems to brand assets that work across every medium.",
     tags: ["Logo Design", "Brand Identity", "Typography"],
+    color: "from-[#7c3aed]/20 to-transparent",
+    accent: "#a855f7",
   },
   {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="3" y="5" width="22" height="15" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+        <path d="M9 24h10M14 20v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M8 11l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
     number: "02",
     title: "Website Design & Development",
     description:
       "SEO-optimised, mobile-responsive, high-performance websites designed to improve your online visibility and generate real business leads.",
     tags: ["UI/UX", "Web Dev", "SEO"],
+    color: "from-[#ec4899]/20 to-transparent",
+    accent: "#ec4899",
   },
   {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="3" y="6" width="22" height="16" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+        <path d="M11 10l7 4-7 4V10z" fill="currentColor"/>
+      </svg>
+    ),
     number: "03",
     title: "Video Creation & Editing",
     description:
       "Professional video production and editing services — from explainer videos and promotional ads to social media reels and motion graphics.",
     tags: ["Motion Graphics", "Reels", "Ads"],
+    color: "from-[#f59e0b]/20 to-transparent",
+    accent: "#f59e0b",
   },
   {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M14 5C8.48 5 4 9.48 4 15s4.48 10 10 10 10-4.48 10-10S19.52 5 14 5z" stroke="currentColor" strokeWidth="1.8"/>
+        <path d="M14 5c-2.5 3-4 6.5-4 10s1.5 7 4 10M14 5c2.5 3 4 6.5 4 10s-1.5 7-4 10M4 15h20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+      </svg>
+    ),
     number: "04",
     title: "Social Media Marketing",
     description:
       "Scroll-stopping visuals, engaging content, and data-driven strategies designed to grow your brand globally across all social platforms.",
     tags: ["Content Strategy", "SMM", "Analytics"],
+    color: "from-[#10b981]/20 to-transparent",
+    accent: "#10b981",
   },
 ];
 
@@ -42,9 +75,19 @@ export default function Services() {
     <section
       id="services"
       ref={ref}
-      className="relative py-32 px-6 bg-[#0d0d0d]"
+      className="relative py-32 px-6 bg-background"
     >
-      <div className="max-w-7xl mx-auto">
+      {/* Background decoration */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)",
+          filter: "blur(80px)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -57,7 +100,7 @@ export default function Services() {
           </p>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <h2
-              className="text-4xl md:text-5xl font-extrabold leading-tight"
+              className="text-4xl md:text-5xl font-extrabold leading-tight text-foreground"
               style={{ fontFamily: "var(--font-syne)" }}
             >
               Services Built
@@ -66,7 +109,7 @@ export default function Services() {
                 For Your Growth
               </span>
             </h2>
-            <p className="text-[#a1a1aa] max-w-xs leading-relaxed">
+            <p className="text-muted max-w-xs leading-relaxed">
               Every service we offer is designed to deliver measurable results
               for your business.
             </p>
@@ -74,7 +117,7 @@ export default function Services() {
         </motion.div>
 
         {/* Service Cards */}
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-5">
           {services.map((service, i) => (
             <motion.div
               key={service.number}
@@ -85,47 +128,47 @@ export default function Services() {
                 delay: i * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group relative p-8 rounded-2xl border border-white/8 bg-white/3 hover:border-[#7c3aed]/40 hover:bg-[#7c3aed]/5 transition-all duration-300 cursor-default overflow-hidden"
+              className="group relative p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-foreground/15 transition-all duration-500 cursor-default overflow-hidden"
             >
-              {/* Hover glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-                style={{ background: "radial-gradient(circle at top left, rgba(124,58,237,0.08) 0%, transparent 60%)" }}
+              {/* Card gradient bg on hover */}
+              <div
+                className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${service.color}`}
+              />
+
+              {/* Top glow accent */}
+              <div
+                className="absolute top-0 left-8 w-20 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: `linear-gradient(90deg, transparent, ${service.accent}, transparent)` }}
               />
 
               <div className="relative z-10">
+                {/* Icon + Number row */}
                 <div className="flex items-start justify-between mb-6">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300"
+                    style={{
+                      background: `${service.accent}15`,
+                      border: `1px solid ${service.accent}30`,
+                      color: service.accent,
+                    }}
+                  >
+                    {service.icon}
+                  </div>
                   <span
-                    className="text-5xl font-extrabold text-white/5 group-hover:text-white/10 transition-colors"
+                    className="text-4xl font-extrabold text-foreground/5 group-hover:text-foreground/10 transition-colors"
                     style={{ fontFamily: "var(--font-syne)" }}
                   >
                     {service.number}
                   </span>
-                  <div className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center group-hover:border-[#a855f7]/60 group-hover:bg-[#7c3aed]/20 transition-all duration-300">
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      className="text-[#a1a1aa] group-hover:text-[#a855f7] -rotate-45 group-hover:rotate-0 transition-all duration-300"
-                    >
-                      <path
-                        d="M1 7h12M7 1l6 6-6 6"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
                 </div>
 
                 <h3
-                  className="text-xl font-bold text-white mb-3 leading-snug"
+                  className="text-xl font-bold text-foreground mb-3 leading-snug"
                   style={{ fontFamily: "var(--font-syne)" }}
                 >
                   {service.title}
                 </h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed mb-6">
+                <p className="text-muted text-sm leading-relaxed mb-6">
                   {service.description}
                 </p>
 
@@ -134,7 +177,7 @@ export default function Services() {
                   {service.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-3 py-1 rounded-full border border-white/10 text-[#a1a1aa] bg-white/3"
+                      className="text-xs px-3 py-1 rounded-full border border-[var(--border-color)] text-muted bg-[var(--card-bg)] group-hover:border-foreground/15 transition-colors"
                     >
                       {tag}
                     </span>
