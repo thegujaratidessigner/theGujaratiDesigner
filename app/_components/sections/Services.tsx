@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 
 const services = [
   {
@@ -187,6 +188,21 @@ export default function Services() {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12 text-center"
+        >
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#7c3aed] text-white text-sm font-semibold hover:bg-[#6d28d9] transition-colors shadow-[0_0_30px_rgba(124,58,237,0.35)]"
+          >
+            View All Packages & Pricing →
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

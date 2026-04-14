@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./_components/SmoothScroll";
 import ThemeProvider from "./_components/ThemeProvider";
 
-const inter = Inter({
-  variable: "--font-inter",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -29,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${syne.variable}`} suppressHydrationWarning>
+    <html lang="en" className={outfit.variable} suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <SmoothScroll>{children}</SmoothScroll>
