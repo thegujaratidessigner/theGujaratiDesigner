@@ -8,10 +8,22 @@ import FAQ from "./_components/sections/FAQ";
 import Testimonials from "./_components/sections/Testimonials";
 import Footer from "./_components/sections/Footer";
 import SectionContainer from "./_components/SectionContainer";
+import CurtainReveal from "./_components/CurtainReveal";
+import { readData } from "@/lib/db";
+import { fetchGoogleReviews } from "@/lib/reviews";
+import type { FeaturedProject } from "./_components/sections/Portfolio";
+import type { ServiceItem } from "./_components/sections/Services";
 
-export default function Home() {
+export default async function Home() {
+  const [featured, services, reviews] = await Promise.all([
+    readData<FeaturedProject[]>("featured.json"),
+    readData<ServiceItem[]>("services.json"),
+    fetchGoogleReviews(),
+  ]);
+
   return (
     <>
+      <CurtainReveal />
       <Navbar />
 
       <main>
@@ -21,12 +33,10 @@ export default function Home() {
           <About />
         </SectionContainer>
 
-        <SectionContainer>
-          <Portfolio />
-        </SectionContainer>
+        <Portfolio featured={featured} />
 
         <SectionContainer>
-          <Services />
+          <Services services={services} />
         </SectionContainer>
 
         <SectionContainer>
@@ -38,7 +48,7 @@ export default function Home() {
         </SectionContainer>
 
         <SectionContainer>
-          <Testimonials />
+          <Testimonials reviews={reviews} />
         </SectionContainer>
       </main>
 

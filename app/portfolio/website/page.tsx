@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Navbar from "../../_components/Navbar";
 import Footer from "../../_components/sections/Footer";
 import WebsitePortfolioSection from "../../_components/sections/portfolio/WebsitePortfolio";
+import { readData } from "@/lib/db";
+import type { WebsiteProject } from "../../_components/sections/portfolio/WebsitePortfolio";
 
 export const metadata: Metadata = {
   title: "Website Portfolio – The Gujarati Designer",
@@ -9,12 +11,14 @@ export const metadata: Metadata = {
     "Explore our website portfolio — UI/UX design, web development, e-commerce, and SEO-optimised websites by The Gujarati Designer.",
 };
 
-export default function WebsitePortfolioPage() {
+export default async function WebsitePortfolioPage() {
+  const projects = await readData<WebsiteProject[]>("projects-website.json");
+
   return (
     <>
       <Navbar />
       <main>
-        <WebsitePortfolioSection />
+        <WebsitePortfolioSection projects={projects} />
       </main>
       <Footer />
     </>

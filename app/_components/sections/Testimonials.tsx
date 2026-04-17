@@ -1,57 +1,78 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { useInView, motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import Image from "next/image";
+import type { GoogleReview } from "@/lib/reviews";
 
-const testimonials = [
+const FALLBACK = [
   {
-    name: "Mehul Shah",
-    role: "Business Owner",
-    company: "MS Enterprises",
-    quote:
-      "The Gujarati Designer helped build my brand from scratch. Their team understood my vision and created a unique brand identity and website that perfectly fits my business. Highly recommended!",
+    author_name: "Mehul Shah",
+    profile_photo_url: "",
     rating: 5,
-    gradient: "from-[#7c3aed] to-[#4c1d95]",
+    relative_time_description: "",
+    text: "The Gujarati Designer helped build my brand from scratch. Their team understood my vision and created a unique brand identity and website that perfectly fits my business. Highly recommended!",
   },
   {
-    name: "Viral Desai",
-    role: "Founder",
-    company: "VD Solutions",
-    quote:
-      "The Gujarati Designer is not just a logo designer — they are a complete branding and digital marketing solution provider. Their strategy-driven approach makes a real difference.",
+    author_name: "Viral Desai",
+    profile_photo_url: "",
     rating: 5,
-    gradient: "from-[#ec4899] to-[#9333ea]",
+    relative_time_description: "",
+    text: "The Gujarati Designer is not just a logo designer — they are a complete branding and digital marketing solution provider. Their strategy-driven approach makes a real difference.",
   },
   {
-    name: "Rina Patel",
-    role: "Director",
-    company: "Patel & Co.",
-    quote:
-      "Their website design and UI/UX skills are excellent. The website they developed for us is modern, responsive, and optimised for SEO and conversions.",
+    author_name: "Rina Patel",
+    profile_photo_url: "",
     rating: 5,
-    gradient: "from-[#f59e0b] to-[#ec4899]",
+    relative_time_description: "",
+    text: "Their website design and UI/UX skills are excellent. The website they developed for us is modern, responsive, and optimised for SEO and conversions.",
   },
 ];
 
-export default function Testimonials() {
+const GRADIENTS = [
+  "from-[#7c3aed] to-[#4c1d95]",
+  "from-[#ec4899] to-[#9333ea]",
+  "from-[#f59e0b] to-[#ec4899]",
+  "from-[#06b6d4] to-[#7c3aed]",
+  "from-[#10b981] to-[#06b6d4]",
+];
+
+export default function Testimonials({ reviews }: { reviews?: GoogleReview[] }) {
+  const items = reviews && reviews.length > 0 ? reviews : FALLBACK;
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [active, setActive] = useState(0);
+  const hasAnimated = useRef(false);
 
-  const prev = () => setActive((a) => (a - 1 + testimonials.length) % testimonials.length);
-  const next = () => setActive((a) => (a + 1) % testimonials.length);
+  const prev = () => setActive((a) => (a - 1 + items.length) % items.length);
+  const next = () => setActive((a) => (a + 1) % items.length);
+
+  useEffect(() => {
+    if (!inView || hasAnimated.current || !ref.current) return;
+    hasAnimated.current = true;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(".test-label", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 0);
+      tl.fromTo(
+        ".test-card",
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.12 },
+        0.3
+      );
+      tl.fromTo(".test-stats", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.3");
+    }, ref);
+
+    return () => ctx.revert();
+  }, [inView]);
 
   return (
     <section ref={ref} className="py-32 px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm text-[#7c3aed] font-semibold tracking-widest uppercase mb-4">
+        <div className="text-center mb-16">
+          <p className="test-label text-sm text-[#7c3aed] font-semibold tracking-widest uppercase mb-4 opacity-0">
             Client Love
           </p>
           <h2
@@ -63,70 +84,21 @@ export default function Testimonials() {
               Say About Us
             </span>
           </h2>
-        </motion.div>
+        </div>
 
-        {/* Desktop: 3 columns */}
+        {/* Desktop: up to 3 columns */}
         <div className="hidden md:grid md:grid-cols-3 gap-5">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 flex flex-col justify-between hover:border-foreground/15 transition-all duration-300 overflow-hidden group"
-            >
-              {/* Top accent line */}
-              <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r ${t.gradient} opacity-60`} />
-
-              {/* Quote mark */}
-              <div
-                className="absolute bottom-6 right-8 text-7xl font-serif text-foreground/5 leading-none pointer-events-none select-none group-hover:text-foreground/8 transition-colors"
-                aria-hidden
-              >
-                &ldquo;
-              </div>
-
-              <div>
-                {/* Stars */}
-                <div className="flex gap-1 mb-5">
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <svg key={j} width="15" height="15" viewBox="0 0 15 15" fill="#a855f7">
-                      <path d="M7.5 1l1.7 3.4 3.8.6-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.6L7.5 1z"/>
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <p className="text-foreground/85 text-base leading-relaxed mb-6">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-              </div>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-subtle)]">
-                <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.gradient} flex items-center justify-center text-white font-bold text-sm shrink-0`}>
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="text-foreground font-semibold text-sm">{t.name}</p>
-                  <p className="text-muted text-xs">{t.role} · {t.company}</p>
-                </div>
-              </div>
-            </motion.div>
+          {items.slice(0, 3).map((t, idx) => (
+            <ReviewCard key={t.author_name + idx} review={t} gradient={GRADIENTS[idx % GRADIENTS.length]} />
           ))}
         </div>
 
         {/* Mobile: carousel */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="md:hidden relative max-w-lg mx-auto"
-        >
+        <div className="md:hidden relative max-w-lg mx-auto">
           <div className="relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 overflow-hidden min-h-[300px] flex flex-col justify-between">
             <div
               className="absolute top-0 left-8 right-8 h-px opacity-60"
-              style={{ background: `linear-gradient(90deg, transparent, #a855f7, transparent)` }}
+              style={{ background: "linear-gradient(90deg, transparent, #a855f7, transparent)" }}
             />
             <div className="absolute bottom-6 right-8 text-7xl font-serif text-foreground/5 leading-none select-none" aria-hidden>&ldquo;</div>
 
@@ -138,30 +110,23 @@ export default function Testimonials() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.35 }}
               >
-                <div className="flex gap-1 mb-5">
-                  {Array.from({ length: testimonials[active].rating }).map((_, i) => (
-                    <svg key={i} width="15" height="15" viewBox="0 0 15 15" fill="#a855f7">
-                      <path d="M7.5 1l1.7 3.4 3.8.6-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.6L7.5 1z"/>
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-foreground/85 text-lg leading-relaxed mb-6">
-                  &ldquo;{testimonials[active].quote}&rdquo;
+                <StarRow rating={items[active].rating} />
+                <p className="text-foreground/85 text-lg leading-relaxed mb-6 mt-4">
+                  &ldquo;{items[active].text}&rdquo;
                 </p>
                 <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-subtle)]">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${testimonials[active].gradient} flex items-center justify-center text-white font-bold text-sm`}>
-                    {testimonials[active].name.charAt(0)}
-                  </div>
+                  <Avatar review={items[active]} gradient={GRADIENTS[active % GRADIENTS.length]} />
                   <div>
-                    <p className="text-foreground font-semibold text-sm">{testimonials[active].name}</p>
-                    <p className="text-muted text-xs">{testimonials[active].role} · {testimonials[active].company}</p>
+                    <p className="text-foreground font-semibold text-sm">{items[active].author_name}</p>
+                    {items[active].relative_time_description && (
+                      <p className="text-muted text-xs">{items[active].relative_time_description}</p>
+                    )}
                   </div>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Controls */}
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               onClick={prev}
@@ -173,7 +138,7 @@ export default function Testimonials() {
               </svg>
             </button>
             <div className="flex gap-2">
-              {testimonials.map((_, i) => (
+              {items.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
@@ -192,15 +157,10 @@ export default function Testimonials() {
               </svg>
             </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* Trust stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-wrap items-center justify-center gap-10 mt-16 pt-12 border-t border-[var(--border-subtle)]"
-        >
+        <div className="test-stats flex flex-wrap items-center justify-center gap-10 mt-16 pt-12 border-t border-[var(--border-subtle)] opacity-0">
           {[
             { value: "500+", label: "Projects Delivered" },
             { value: "200+", label: "Happy Clients" },
@@ -217,8 +177,66 @@ export default function Testimonials() {
               <p className="text-xs text-muted mt-1 tracking-wide">{stat.label}</p>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
+  );
+}
+
+function ReviewCard({ review, gradient }: { review: GoogleReview; gradient: string }) {
+  return (
+    <div className="test-card relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 flex flex-col justify-between hover:border-foreground/15 transition-all duration-300 overflow-hidden group hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] opacity-0">
+      <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r ${gradient} opacity-60`} />
+      <div className="absolute bottom-6 right-8 text-7xl font-serif text-foreground/5 leading-none pointer-events-none select-none group-hover:text-foreground/8 transition-colors" aria-hidden>
+        &ldquo;
+      </div>
+      <div>
+        <StarRow rating={review.rating} />
+        <p className="text-foreground/85 text-base leading-relaxed mb-6 mt-4">
+          &ldquo;{review.text}&rdquo;
+        </p>
+      </div>
+      <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-subtle)]">
+        <Avatar review={review} gradient={gradient} />
+        <div>
+          <p className="text-foreground font-semibold text-sm">{review.author_name}</p>
+          {review.relative_time_description && (
+            <p className="text-muted text-xs">{review.relative_time_description}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Avatar({ review, gradient }: { review: GoogleReview; gradient: string }) {
+  if (review.profile_photo_url) {
+    return (
+      <Image
+        src={review.profile_photo_url}
+        alt={review.author_name}
+        width={40}
+        height={40}
+        className="w-10 h-10 rounded-full object-cover shrink-0"
+        unoptimized
+      />
+    );
+  }
+  return (
+    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-sm shrink-0`}>
+      {review.author_name.charAt(0)}
+    </div>
+  );
+}
+
+function StarRow({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-1">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg key={i} width="15" height="15" viewBox="0 0 15 15" fill={i < rating ? "#a855f7" : "currentColor"} className={i < rating ? "" : "opacity-20"}>
+          <path d="M7.5 1l1.7 3.4 3.8.6-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.6L7.5 1z"/>
+        </svg>
+      ))}
+    </div>
   );
 }

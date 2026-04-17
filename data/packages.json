@@ -1,0 +1,271 @@
+{
+  "logo": [
+    {
+      "id": "logo-standard",
+      "name": "Standard",
+      "price": 499,
+      "description": "3 logo samples + 1 round of changes",
+      "features": ["3 unique logo concepts", "1 revision round", "PNG & JPG files", "Basic color palette"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "logo-premium",
+      "name": "Premium",
+      "price": 999,
+      "description": "7 customised logo samples + 2-3 rounds of changes",
+      "features": ["7 unique logo concepts", "2–3 revision rounds", "PNG, JPG & SVG files", "Color + monochrome variants", "Brand color palette"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "logo-prime",
+      "name": "Prime",
+      "price": 1999,
+      "description": "5 copyright free designs + 5 rounds of changes",
+      "features": ["5 copyright-free concepts", "5 revision rounds", "All file formats", "Copyright ownership", "Full brand colors"],
+      "popular": true,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "logo-signature",
+      "name": "Signature",
+      "price": 2999,
+      "description": "10 copyright free designs + satisfied round of changes",
+      "features": ["10 copyright-free concepts", "Unlimited revisions", "All file formats", "Copyright ownership", "Brand guidelines doc"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "logo-tgd-special",
+      "name": "TGD Special",
+      "price": 4999,
+      "description": "15 handmade designs, fully customizable until satisfaction",
+      "features": ["15 handcrafted designs", "Unlimited revisions", "All formats + source files", "Copyright ownership", "Full brand guidelines", "Priority support"],
+      "popular": false,
+      "featured": true,
+      "accent": "#ec4899",
+      "startingFrom": false,
+      "duration": ""
+    }
+  ],
+  "combo": [
+    {
+      "id": "combo-pro",
+      "name": "Pro",
+      "price": 899,
+      "description": "Standard logo design package + 3D intro video",
+      "features": ["Standard Logo Package", "3D intro video", "PNG & JPG delivery"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "combo-ultra",
+      "name": "Ultra",
+      "price": 1999,
+      "description": "Premium logo + visiting card + letterhead + 3D intro video",
+      "features": ["Premium Logo Package", "Visiting card design", "Letterhead design", "3D intro video"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "combo-gold",
+      "name": "Gold",
+      "price": 2999,
+      "description": "Prime logo + visiting card + letterhead + envelope + HD video + invoice",
+      "features": ["Prime Logo Package", "Visiting card design", "Letterhead design", "Envelope design", "HD intro video", "Invoice design"],
+      "popular": true,
+      "featured": false,
+      "accent": "#f59e0b",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "combo-crown",
+      "name": "Crown",
+      "price": 3999,
+      "description": "Signature logo + full stationery suite + HD video + invoice",
+      "features": ["Signature Logo Package", "Visiting card design", "Letterhead design", "Envelope design", "HD intro video", "Invoice design"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "combo-legacy",
+      "name": "Legacy",
+      "price": 6999,
+      "description": "TGD Special logo + full stationery + HD video + invoice + 5 custom posters",
+      "features": ["TGD Special Logo Package", "Visiting card design", "Letterhead design", "Envelope design", "HD intro video", "Invoice design", "5 custom poster designs"],
+      "popular": false,
+      "featured": true,
+      "accent": "#ec4899",
+      "startingFrom": false,
+      "duration": ""
+    }
+  ],
+  "website": [
+    {
+      "id": "website-wp-elementor",
+      "name": "WordPress + Elementor Pro",
+      "price": 9999,
+      "description": "5–10 pages fully responsive website",
+      "features": ["5–10 pages", "Fully responsive", "Full setup", "1 year free hosting", "Contact form", "Basic SEO"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "website-wp-woocommerce",
+      "name": "WordPress + WooCommerce",
+      "price": 14999,
+      "description": "8–10 pages e-commerce website with full setup",
+      "features": ["8–10 pages", "E-commerce ready", "Product management", "Payment gateway", "1 year free hosting", "Basic SEO"],
+      "popular": true,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "website-shopify",
+      "name": "Shopify Website",
+      "price": 19999,
+      "description": "8–10 pages Shopify store with full setup",
+      "features": ["8–10 pages", "Shopify theme customisation", "Payment integration", "Inventory management", "Full setup", "+ Shopify subscription charges"],
+      "popular": false,
+      "featured": false,
+      "accent": "#ec4899",
+      "startingFrom": false,
+      "duration": ""
+    },
+    {
+      "id": "website-html",
+      "name": "HTML Coded Website",
+      "price": 35000,
+      "description": "Unlimited pages, custom design, unlimited hosting",
+      "features": ["Unlimited pages", "100% custom design", "Unlimited hosting", "Full setup", "Advanced SEO", "Blazing-fast performance"],
+      "popular": false,
+      "featured": false,
+      "accent": "#f59e0b",
+      "startingFrom": true,
+      "duration": ""
+    },
+    {
+      "id": "website-html-ecommerce",
+      "name": "HTML E-Commerce",
+      "price": 80000,
+      "description": "Full custom e-commerce with smooth design and unlimited hosting",
+      "features": ["Unlimited products", "100% custom design", "Unlimited hosting", "Payment gateway", "Admin dashboard", "Advanced SEO + analytics"],
+      "popular": false,
+      "featured": true,
+      "accent": "#ec4899",
+      "startingFrom": true,
+      "duration": ""
+    }
+  ],
+  "social": [
+    {
+      "id": "social-startups",
+      "name": "Star-Ups",
+      "price": 5999,
+      "description": "Kickstart your social media presence",
+      "features": ["16 social media posts", "4 reels", "Design only"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": "/ month"
+    },
+    {
+      "id": "social-basics",
+      "name": "Basics",
+      "price": 9999,
+      "description": "Content + platform management for growing brands",
+      "features": ["20 social media posts", "5 reel edits", "2 platform handling", "Content calendar"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": "/ month"
+    },
+    {
+      "id": "social-business-owners",
+      "name": "Business Owners",
+      "price": 24999,
+      "description": "Professional reels with models + full management",
+      "features": ["10 reels shooting + editing", "10 posts", "2 platform handling", "Model included", "Monthly performance report"],
+      "popular": true,
+      "featured": false,
+      "accent": "#ec4899",
+      "startingFrom": false,
+      "duration": "/ month"
+    },
+    {
+      "id": "social-ready-to-go",
+      "name": "Ready To Go",
+      "price": 34999,
+      "description": "Full-service management with guaranteed organic growth",
+      "features": ["15 reels shooting + editing", "15 posts", "2 platform handling", "Organic growth guaranteed", "Weekly performance reports"],
+      "popular": false,
+      "featured": false,
+      "accent": "#a855f7",
+      "startingFrom": false,
+      "duration": "/ month"
+    },
+    {
+      "id": "social-tgd-special",
+      "name": "TGD Special",
+      "price": 49999,
+      "description": "Elite package with meta ads + full growth strategy",
+      "features": ["20 reels shooting + editing", "20 posts", "2 platform handling", "Meta ad setup", "Weekly reports", "Growth strategy consultation"],
+      "popular": false,
+      "featured": true,
+      "accent": "#ec4899",
+      "startingFrom": false,
+      "duration": "/ month"
+    }
+  ],
+  "addon": {
+    "services": [
+      { "id": "addon-meta-ad", "name": "Meta Ad Campaign", "price": 4000, "unit": "" },
+      { "id": "addon-reel-editing", "name": "Reel Editing", "price": 1500, "unit": "" },
+      { "id": "addon-website-seo", "name": "Website SEO", "price": null, "unit": "" },
+      { "id": "addon-brochure", "name": "Brochure Design", "price": 499, "unit": "/ page" },
+      { "id": "addon-flyer", "name": "Flyer / Banner Design", "price": 499, "unit": "" },
+      { "id": "addon-certificate", "name": "Certificate Design", "price": 499, "unit": "" }
+    ],
+    "stationary": [
+      { "id": "addon-visiting-card", "name": "Visiting Card Design", "price": 399, "unit": "" },
+      { "id": "addon-letterhead", "name": "Letterhead Design", "price": 299, "unit": "" },
+      { "id": "addon-invoice", "name": "Invoice Design", "price": 499, "unit": "" },
+      { "id": "addon-envelope", "name": "Envelope Design", "price": 399, "unit": "" }
+    ],
+    "product": [
+      { "id": "addon-box", "name": "Box Design", "price": 3999, "unit": "" },
+      { "id": "addon-pouch", "name": "Pouch Design", "price": 2999, "unit": "" },
+      { "id": "addon-sticker", "name": "Sticker / Label Design", "price": 1499, "unit": "" }
+    ]
+  }
+}

@@ -5,152 +5,31 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useLenis } from "../../SmoothScroll";
 
-const categories = ["All", "Logo Design", "2D Designs", "Brand Identity", "Product Design", "Printables", "Social Media"];
+export type GraphicsProject = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  count: string;
+  bg: string;
+};
 
-const projects = [
-  // Logo Design
-  {
-    title: "Logo Design Collection",
-    category: "Logo Design",
-    description: "Naari Weaver, Dhonenath, Shawarma Walla, The Grand Palm's, Ethnico, MR Private, Infinity, Hotel GL RINN, Murli Sweets, Rajadhiraj, Khan Era, Astha, Naruvi & more.",
-    image: "/portfolio/graphics/logo-design.png",
-    count: "15+ Logos",
-    bg: "bg-[#1a1a2e]",
-  },
+const DEFAULT_CATEGORIES = ["All", "Logo Design", "2D Designs", "Brand Identity", "Product Design", "Printables", "Social Media"];
 
-  // 2D Designs
-  {
-    title: "2D Designs — Vol. 1",
-    category: "2D Designs",
-    description: "Mamo Katta, OSM, Diesel Daddy, Shankh Kranti, Ameerix, Patilji, USA Cargo Bridge, AGI, Chatty & Scatty, Dr. Krishna's Dental Care, Prem Tea Stall, Shiva Book, The Column Space.",
-    image: "/portfolio/graphics/2d-designs-1.png",
-    count: "14 Designs",
-    bg: "bg-white",
-  },
-  {
-    title: "2D Designs — Vol. 2",
-    category: "2D Designs",
-    description: "Tastura Foods, Studio Bright Lens, Kalyan Photography, Classic Rolls, Rushab Dryfruits, Sasta Mobile, XSRP Industries, Radha Krishna Textile, The CK Salon, Morvi Agro, Divisha, Future Plan Facilities.",
-    image: "/portfolio/graphics/2d-designs-2.png",
-    count: "12 Designs",
-    bg: "bg-white",
-  },
-
-  // Brand Identity
-  {
-    title: "Brand Identity — Vol. 1",
-    category: "Brand Identity",
-    description: "Full brand identity systems for Krishna Dryfruit (multiple logo variants + packaging), Juco (logo + bottle mockups), and Shankh Kranti (spice jar & pouch packaging).",
-    image: "/portfolio/graphics/brand-identity-1.png",
-    count: "3 Projects",
-    bg: "bg-[#f5f5f0]",
-  },
-  {
-    title: "Brand Identity — Vol. 2",
-    category: "Brand Identity",
-    description: "Complete brand systems for AGI (Aurum Global Immigration), Swastik, Keylot Overseas Private Limited, MPS Ambica, Cliniroots, WoodWell Candles, and GVK Sports.",
-    image: "/portfolio/graphics/brand-identity-2.png",
-    count: "7 Projects",
-    bg: "bg-[#3a1f6e]",
-  },
-  {
-    title: "Logo Design Process",
-    category: "Brand Identity",
-    description: "Behind-the-scenes look at the handcrafted logo design process — sketches to final mark for ACR Technical Center, Rubaani Exports, NFC Premium Cafe, Marvella, and Tillage.",
-    image: "/portfolio/graphics/logo-process.png",
-    count: "5 Projects",
-    bg: "bg-[#3a1f6e]",
-  },
-
-  // Printables
-  {
-    title: "Printables & Stationery",
-    category: "Printables",
-    description: "Complete stationery suites — visiting cards, letterheads, envelopes, and invoice designs for Shirke Hospital, ELS, DS Intox, Polaris, and Olim.",
-    image: "/portfolio/graphics/printables.png",
-    count: "5 Projects",
-    bg: "bg-white",
-  },
-
-  // Product Design
-  {
-    title: "Product Design — Vol. 1",
-    category: "Product Design",
-    description: "Packaging design for Bom Gusceuz chips, Jojoba extract, Matcha, Farm Fresh Green Beans, Healthyfood, Lafgawan, Sugar Free, Mushroom Coffee, Orange Made Drink, VAV Athletic Values, Ameerix Block Jointer.",
-    image: "/portfolio/graphics/product-design-1.png",
-    count: "11 Designs",
-    bg: "bg-[#2a1a6e]",
-  },
-  {
-    title: "Product Design — Vol. 2",
-    category: "Product Design",
-    description: "Premium product visuals — Organic Juice (Cherry & Peach), Guava drink, Devil Energy Drink, Makhana snacks, and ZLYN Advanced Skin Wellness face cream.",
-    image: "/portfolio/graphics/product-design-2.png",
-    count: "5 Projects",
-    bg: "bg-[#3a1f6e]",
-  },
-  {
-    title: "Product Design — Hitarva & Artiss",
-    category: "Product Design",
-    description: "Stand-up pouch designs for Hitarva Roasted Makhana (Pista, Tangy Tomato, Cheese) and Artiss Pure & Organic spices (Black Pepper, Jeera, Jaifal).",
-    image: "/portfolio/graphics/product-design-3.png",
-    count: "6 Designs",
-    bg: "bg-white",
-  },
-  {
-    title: "Product Design — Food Packaging",
-    category: "Product Design",
-    description: "Large-scale food product packaging for Bahurani Atta, RS Gold Atta & Mogra Rice, and Shajar Natural dehydrated powders (Red Onion, Mint Leaf, Garlic).",
-    image: "/portfolio/graphics/product-design-4.png",
-    count: "9 Designs",
-    bg: "bg-white",
-  },
-  {
-    title: "Product Design — Heavenmist",
-    category: "Product Design",
-    description: "Complete product range label design for Heavenmist — natural home care products including surface cleaners, floor cleaners, and hand wash with lifestyle photography.",
-    image: "/portfolio/graphics/product-design-5.png",
-    count: "1 Brand",
-    bg: "bg-white",
-  },
-
-  // Social Media
-  {
-    title: "Social Media — Branding Posts",
-    category: "Social Media",
-    description: "High-converting promotional creatives for Social Cardify — website offer campaigns, service advertisements, referral programs, and brand awareness posts.",
-    image: "/portfolio/graphics/social-media-branding.png",
-    count: "6 Posts",
-    bg: "bg-[#0a1128]",
-  },
-  {
-    title: "Social Media — Vol. 1",
-    category: "Social Media",
-    description: "Festival, product, and promo posts for Ameerix, Financepe, Momokatta, Rajdhani Chai, Xavi Jewels, Deshi Tokri, Column Space, Shajar Natural, and Pandit Herbs.",
-    image: "/portfolio/graphics/social-media-1.png",
-    count: "9 Posts",
-    bg: "bg-[#1a1a1a]",
-  },
-  {
-    title: "Social Media — Vol. 2",
-    category: "Social Media",
-    description: "Creative social media posts for Nammha Vidya, Ckyin, Elite Academy, Hari Pure Ghee, Food Travel, Leo Kynd, Shival Hospital, Tevi, and Bechdu.",
-    image: "/portfolio/graphics/social-media-2.png",
-    count: "9 Posts",
-    bg: "bg-[#1a1a1a]",
-  },
-];
-
-export default function GraphicsPortfolio() {
+export default function GraphicsPortfolio({ projects }: { projects: GraphicsProject[] }) {
   const [active, setActive] = useState("All");
   const [lightbox, setLightbox] = useState<string | null>(null);
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const lenisRef = useLenis();
 
+  // Derive categories from actual projects
+  const projectCategories = Array.from(new Set(projects.map((p) => p.category)));
+  const categories = ["All", ...DEFAULT_CATEGORIES.slice(1).filter((c) => projectCategories.includes(c)), ...projectCategories.filter((c) => !DEFAULT_CATEGORIES.includes(c))];
+
   const filtered = active === "All" ? projects : projects.filter((p) => p.category === active);
 
-  // Stop Lenis + lock page scroll when lightbox is open
   useEffect(() => {
     if (lightbox) {
       lenisRef?.current?.stop();
@@ -181,7 +60,6 @@ export default function GraphicsPortfolio() {
 
   return (
     <section ref={ref} className="min-h-screen bg-background pt-20">
-      {/* Hero */}
       <div className="relative py-20 px-6 overflow-hidden">
         <div
           aria-hidden
@@ -214,7 +92,6 @@ export default function GraphicsPortfolio() {
         </div>
       </div>
 
-      {/* Filter tabs */}
       <div className="px-6 pb-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -240,14 +117,13 @@ export default function GraphicsPortfolio() {
         </div>
       </div>
 
-      {/* Grid */}
       <div className="px-6 pb-32">
         <div className="max-w-7xl mx-auto">
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {filtered.map((project, i) => (
                 <motion.div
-                  key={project.title}
+                  key={project.id}
                   layout
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -256,7 +132,6 @@ export default function GraphicsPortfolio() {
                   className="group relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] hover:border-foreground/15 transition-all duration-500 cursor-pointer"
                   onClick={() => setLightbox(project.image)}
                 >
-                  {/* Image preview */}
                   <div className={`relative h-72 ${project.bg} overflow-hidden`}>
                     <Image
                       src={project.image}
@@ -276,7 +151,6 @@ export default function GraphicsPortfolio() {
                     </div>
                   </div>
 
-                  {/* Info */}
                   <div className="p-5 bg-[var(--card-bg)] group-hover:bg-[var(--card-bg-hover)] transition-colors duration-300">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs text-muted tracking-widest uppercase">{project.category}</span>
@@ -299,7 +173,6 @@ export default function GraphicsPortfolio() {
         </div>
       </div>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
@@ -309,7 +182,6 @@ export default function GraphicsPortfolio() {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md"
           >
-            {/* Close button */}
             <button
               onClick={() => setLightbox(null)}
               className="fixed top-5 right-5 z-[110] w-10 h-10 rounded-full bg-black/70 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/90 transition-colors border border-white/10"
@@ -319,7 +191,6 @@ export default function GraphicsPortfolio() {
               </svg>
             </button>
 
-            {/* Scrollable area — stopPropagation prevents Lenis from hijacking wheel/touch */}
             <div
               className="absolute inset-0 overflow-y-auto overscroll-contain"
               onClick={() => setLightbox(null)}

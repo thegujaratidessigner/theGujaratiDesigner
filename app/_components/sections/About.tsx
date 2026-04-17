@@ -1,7 +1,11 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { useInView } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const highlights = [
   { label: "Founded", value: "2018" },
@@ -13,21 +17,45 @@ const highlights = [
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const hasAnimated = useRef(false);
 
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.1 } },
-  };
+  useEffect(() => {
+    if (!inView || hasAnimated.current || !ref.current) return;
+    hasAnimated.current = true;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const itemVariants: any = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      // Label
+      tl.fromTo(".about-label", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 0);
+
+      // Paragraphs
+      tl.fromTo(
+        ".about-para",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.15 },
+        0.4
+      );
+
+      // Highlight cards stagger in with scale
+      tl.fromTo(
+        ".about-card",
+        { y: 40, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.08 },
+        0.3
+      );
+
+      // Mission card
+      tl.fromTo(
+        ".about-mission",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 },
+        "-=0.2"
+      );
+    }, ref);
+
+    return () => ctx.revert();
+  }, [inView]);
 
   return (
     <section
@@ -45,25 +73,16 @@ export default function About() {
         }}
       />
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        className="max-w-7xl mx-auto"
-      >
+      <div className="max-w-7xl mx-auto">
         {/* Label */}
-        <motion.p
-          variants={itemVariants}
-          className="text-sm text-[#7c3aed] font-semibold tracking-widest uppercase mb-4"
-        >
+        <p className="about-label text-sm text-[#7c3aed] font-semibold tracking-widest uppercase mb-4 opacity-0">
           About Us
-        </motion.p>
+        </p>
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left - Text */}
           <div>
-            <motion.h2
-              variants={itemVariants}
+            <h2
               className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-foreground"
               style={{ fontFamily: "var(--font-syne)" }}
             >
@@ -72,39 +91,31 @@ export default function About() {
               <span className="bg-gradient-to-r from-[#a855f7] to-[#ec4899] bg-clip-text text-transparent">
                 Born in Ahmedabad
               </span>
-            </motion.h2>
+            </h2>
 
-            <motion.p
-              variants={itemVariants}
-              className="text-muted text-lg leading-relaxed mb-6"
-            >
+            <p className="about-para text-muted text-lg leading-relaxed mb-6 opacity-0">
               Founded on 9th February 2018 by Kunal Thacker, The Gujarati
               Designer is a globally serving creative design studio. With over 9
               years of experience, we have built a reputation for delivering
               high-impact, strategy-driven design solutions to businesses
               worldwide.
-            </motion.p>
+            </p>
 
-            <motion.p
-              variants={itemVariants}
-              className="text-muted text-lg leading-relaxed"
-            >
+            <p className="about-para text-muted text-lg leading-relaxed opacity-0">
               We specialise in transforming ideas into powerful brand identities
               through professional logo design, branding, graphic design, website
               development, and video content creation. Every project is crafted
               with precision, clarity, and a deep understanding of brand
               psychology.
-            </motion.p>
+            </p>
           </div>
 
           {/* Right - Highlights */}
           <div className="grid grid-cols-2 gap-4">
-            {highlights.map((item, i) => (
-              <motion.div
+            {highlights.map((item) => (
+              <div
                 key={item.label}
-                variants={itemVariants}
-                custom={i}
-                className="p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[#7c3aed]/40 transition-colors duration-300"
+                className="about-card p-6 rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[#7c3aed]/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(124,58,237,0.08)] opacity-0"
               >
                 <p className="text-xs text-muted tracking-widest uppercase mb-2">
                   {item.label}
@@ -115,14 +126,11 @@ export default function About() {
                 >
                   {item.value}
                 </p>
-              </motion.div>
+              </div>
             ))}
 
             {/* Extra card */}
-            <motion.div
-              variants={itemVariants}
-              className="col-span-2 p-6 rounded-2xl border border-[#7c3aed]/30 bg-[#7c3aed]/8 hover:bg-[#7c3aed]/12 transition-colors duration-300"
-            >
+            <div className="about-mission col-span-2 p-6 rounded-2xl border border-[#7c3aed]/30 bg-[#7c3aed]/8 hover:bg-[#7c3aed]/12 transition-all duration-300 hover:-translate-y-1 opacity-0">
               <p className="text-xs text-[#a855f7] tracking-widest uppercase mb-2">
                 Our Mission
               </p>
@@ -130,10 +138,22 @@ export default function About() {
                 We believe design is a business tool — meant to communicate,
                 influence, and convert. Every brand we build drives real results.
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
+  );
+}
+
+function SplitWords({ text, className }: { text: string; className?: string }) {
+  return (
+    <span className={className}>
+      {text.split(" ").map((word, i) => (
+        <span key={i} className="about-word inline-block mr-[0.3em]">
+          {word}
+        </span>
+      ))}
+    </span>
   );
 }

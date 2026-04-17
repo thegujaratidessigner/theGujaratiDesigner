@@ -1,0 +1,38 @@
+[
+  {
+    "id": "krishna-dryfruit",
+    "category": "Brand Identity",
+    "title": "Krishna Dryfruit",
+    "description": "Full brand identity system — multiple logo variants, packaging, and product mockups for a premium dryfruit brand.",
+    "image": "/portfolio/graphics/brand-identity-1.png",
+    "accent": "#a855f7",
+    "gradient": "from-[#7c3aed] to-[#4c1d95]"
+  },
+  {
+    "id": "heavenmist",
+    "category": "Product Design",
+    "title": "Heavenmist",
+    "description": "Complete product range label design for Heavenmist — natural home care products with lifestyle photography integration.",
+    "image": "/portfolio/graphics/product-design-5.png",
+    "accent": "#ec4899",
+    "gradient": "from-[#ec4899] to-[#9333ea]"
+  },
+  {
+    "id": "avniri-featured",
+    "category": "Website Design",
+    "title": "Avniri",
+    "description": "Fashion brand online store with curated collections, mobile-first design, and seamless shopping experience.",
+    "image": "/portfolio/graphics/logo-design.png",
+    "accent": "#f59e0b",
+    "gradient": "from-[#f59e0b] to-[#ec4899]"
+  },
+  {
+    "id": "logo-collection-featured",
+    "category": "Logo Design",
+    "title": "Logo Design Collection",
+    "description": "Handcrafted logos for Naari Weaver, Shawarma Walla, Ethnico, Hotel GL RINN, Murli Sweets, and many more — each built to last.",
+    "image": "/portfolio/graphics/logo-design.png",
+    "accent": "#10b981",
+    "gradient": "from-[#10b981] to-[#6366f1]"
+  }
+]
