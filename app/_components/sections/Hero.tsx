@@ -5,12 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import gsap from "gsap";
 import dynamic from "next/dynamic";
+import type { StatItem } from "@/app/api/stats/route";
 
 const HeroScene = dynamic(() => import("../HeroScene"), { ssr: false });
 
 const rotatingWords = ["Convert", "Inspire", "Dominate", "Captivate"];
 
-export default function Hero() {
+export default function Hero({ stats }: { stats: StatItem[] }) {
   const [wordIndex, setWordIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -19,17 +20,23 @@ export default function Hero() {
   const statsRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
-  // Mouse parallax on orbs
+  // Mouse parallax on orbs — throttled to one update per animation frame
+  const rafPending = useRef(false);
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    const { innerWidth: w, innerHeight: h } = window;
-    const x = (e.clientX / w - 0.5) * 2;
-    const y = (e.clientY / h - 0.5) * 2;
-    if (orb1Ref.current) gsap.to(orb1Ref.current, { x: x * 40, y: y * 40, duration: 1.2, ease: "power2.out" });
-    if (orb2Ref.current) gsap.to(orb2Ref.current, { x: x * -25, y: y * -25, duration: 1.4, ease: "power2.out" });
+    if (rafPending.current) return;
+    rafPending.current = true;
+    requestAnimationFrame(() => {
+      rafPending.current = false;
+      const { innerWidth: w, innerHeight: h } = window;
+      const x = (e.clientX / w - 0.5) * 2;
+      const y = (e.clientY / h - 0.5) * 2;
+      if (orb1Ref.current) gsap.to(orb1Ref.current, { x: x * 40, y: y * 40, duration: 1.2, ease: "power2.out" });
+      if (orb2Ref.current) gsap.to(orb2Ref.current, { x: x * -25, y: y * -25, duration: 1.4, ease: "power2.out" });
+    });
   }, []);
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
 
@@ -132,14 +139,14 @@ export default function Hero() {
       <div
         ref={orb1Ref}
         aria-hidden
-        className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none will-change-transform"
-        style={{ background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)", filter: "blur(80px)" }}
+        className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full opacity-25 pointer-events-none will-change-transform"
+        style={{ background: "radial-gradient(circle, #7c3aed 0%, #7c3aed44 30%, transparent 70%)" }}
       />
       <div
         ref={orb2Ref}
         aria-hidden
-        className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full opacity-15 pointer-events-none will-change-transform"
-        style={{ background: "radial-gradient(circle, #ec4899 0%, transparent 70%)", filter: "blur(80px)" }}
+        className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] rounded-full opacity-20 pointer-events-none will-change-transform"
+        style={{ background: "radial-gradient(circle, #ec4899 0%, #ec489944 30%, transparent 70%)" }}
       />
 
       {/* ── 3D Scene ── */}
@@ -217,13 +224,9 @@ export default function Hero() {
         {/* Stats with counters */}
         <div
           ref={statsRef}
-          className="hero-stats flex items-center justify-center gap-16 mt-14 pt-8 border-t border-[var(--border-subtle)] opacity-0"
+          className="hero-stats flex items-center justify-center gap-8 sm:gap-16 mt-14 pt-8 border-t border-[var(--border-subtle)] opacity-0"
         >
-          {[
-            { target: 9, suffix: "+", label: "Years Experience" },
-            { target: 500, suffix: "+", label: "Projects Delivered" },
-            { target: 200, suffix: "+", label: "Happy Clients" },
-          ].map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.label} className="text-center">
               <p
                 className="stat-counter text-3xl font-bold text-foreground"
@@ -304,9 +307,9 @@ function MagneticWrap({ children }: { children: React.ReactNode }) {
 function AnimatedWord({ word }: { word: string }) {
   return (
     <motion.span
-      initial={{ y: "100%", opacity: 0, filter: "blur(8px)" }}
-      animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-      exit={{ y: "-100%", opacity: 0, filter: "blur(8px)" }}
+      initial={{ y: "100%", opacity: 0 }}
+      animate={{ y: "0%", opacity: 1 }}
+      exit={{ y: "-100%", opacity: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="block bg-gradient-to-r from-[#a855f7] to-[#ec4899] bg-clip-text text-transparent"
     >

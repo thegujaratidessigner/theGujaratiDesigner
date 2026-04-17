@@ -78,11 +78,8 @@ export default function CTABanner() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4c1d95]" />
         <div
           aria-hidden
-          className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full opacity-20 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, #ec4899 0%, transparent 70%)",
-            filter: "blur(60px)",
-          }}
+          className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-25 pointer-events-none"
+          style={{ background: "radial-gradient(circle, #ec4899 0%, #ec489933 35%, transparent 70%)" }}
         />
         <div
           aria-hidden
@@ -95,7 +92,7 @@ export default function CTABanner() {
         />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-12 md:p-16">
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-6 sm:p-10 md:p-16">
           <div>
             <p className="cta-text text-sm text-white/60 tracking-widest uppercase mb-3 opacity-0">
               Ready to grow?

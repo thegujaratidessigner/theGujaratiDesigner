@@ -57,7 +57,7 @@ export default function AboutValues() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-background">
+    <section ref={ref} className="py-12 md:py-24 px-4 sm:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

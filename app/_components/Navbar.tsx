@@ -15,6 +15,7 @@ const navLinks = [
     dropdown: [
       { label: "Website Portfolio", href: "/portfolio/website" },
       { label: "Graphics Portfolio", href: "/portfolio/graphics" },
+      { label: "UGC Portfolio", href: "https://drive.google.com/drive/folders/1eyH_NnQze8zOVHb_iq5PusZM5gDP3IWD?usp=drive_link", external: true },
     ],
   },
   {
@@ -78,6 +79,7 @@ function NavDropdown({ link, onClose }: { link: typeof navLinks[number]; onClose
                 key={item.label}
                 href={item.href}
                 onClick={onClose}
+                {...("external" in item && item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className={`flex items-center gap-3 px-4 py-3 text-sm text-muted hover:text-foreground hover:bg-[var(--card-bg)] transition-all duration-150 ${
                   i < link.dropdown!.length - 1 ? "border-b border-[var(--border-color)]" : ""
                 }`}
@@ -211,6 +213,7 @@ export default function Navbar() {
                         key={item.label}
                         href={item.href}
                         onClick={() => setMenuOpen(false)}
+                        {...("external" in item && item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         className="text-base text-foreground hover:text-[#a855f7] transition-colors"
                       >
                         {item.label}

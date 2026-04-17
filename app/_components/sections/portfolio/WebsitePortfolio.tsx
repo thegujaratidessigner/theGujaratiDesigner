@@ -62,7 +62,7 @@ export default function WebsitePortfolio({ projects }: { projects: WebsiteProjec
 
   return (
     <section ref={ref} className="min-h-screen bg-background pt-20">
-      <div className="relative py-20 px-6 overflow-hidden">
+      <div className="relative py-14 md:py-20 px-4 sm:px-6 overflow-hidden">
         <div
           aria-hidden
           className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
@@ -94,7 +94,7 @@ export default function WebsitePortfolio({ projects }: { projects: WebsiteProjec
         </div>
       </div>
 
-      <div className="px-6 pb-10">
+      <div className="px-4 sm:px-6 pb-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -119,7 +119,7 @@ export default function WebsitePortfolio({ projects }: { projects: WebsiteProjec
         </div>
       </div>
 
-      <div className="px-6 pb-32">
+      <div className="px-4 sm:px-6 pb-32">
         <div className="max-w-7xl mx-auto">
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">

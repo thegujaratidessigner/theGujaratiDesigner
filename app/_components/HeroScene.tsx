@@ -26,13 +26,13 @@ function useHoverColor(baseColor: string, baseEmissive = 0.35) {
   };
   const tick = () => {
     if (!matRef.current) return;
-    currentCol.current.lerp(targetCol.current, 0.07);
+    currentCol.current.lerp(targetCol.current, 0.1);
     matRef.current.color.copy(currentCol.current);
     matRef.current.emissive.copy(currentCol.current);
     matRef.current.emissiveIntensity = THREE.MathUtils.lerp(
       matRef.current.emissiveIntensity,
       isHovered.current ? 1.4 : baseEmissive,
-      0.07
+      0.1
     );
   };
 
@@ -227,7 +227,7 @@ export default function HeroScene() {
   return (
     <Canvas
       camera={{ position: [0, 0, 8], fov: 58 }}
-      gl={{ alpha: true, antialias: true }}
+      gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       dpr={[1, 1.5]}
       style={{ background: "transparent" }}
     >

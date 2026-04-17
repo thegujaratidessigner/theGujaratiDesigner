@@ -114,14 +114,11 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
     <section id="portfolio" ref={sectionRef} className="relative bg-background">
       <div
         aria-hidden
-        className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-8 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, #ec4899 0%, transparent 70%)",
-          filter: "blur(100px)",
-        }}
+        className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full opacity-10 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #ec4899 0%, #ec489922 35%, transparent 70%)" }}
       />
 
-      <div ref={headerRef} className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
+      <div ref={headerRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 md:pt-32 pb-12 md:pb-20">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <p className="port-label text-sm text-[#7c3aed] font-semibold tracking-widest uppercase mb-4 opacity-0">
@@ -150,7 +147,7 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
           key={project.id}
           className="featured-panel relative min-h-screen flex items-center bg-background"
         >
-          <div className="max-w-7xl mx-auto px-6 w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 w-full">
             <div
               className={`grid lg:grid-cols-2 gap-12 items-center`}
               style={{ direction: i % 2 === 1 ? "rtl" : "ltr" }}
@@ -214,7 +211,7 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
         </div>
       ))}
 
-      <div className="relative z-10 flex flex-col items-center gap-4 py-20 px-6">
+      <div className="relative z-10 flex flex-col items-center gap-4 py-20 px-4 sm:px-8 lg:px-16">
         <Link
           href="/portfolio/graphics"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-foreground/15 hover:border-[#a855f7]/50 text-foreground font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-[#7c3aed]/10 hover:scale-105 active:scale-95"

@@ -68,7 +68,7 @@ export default function Testimonials({ reviews }: { reviews?: GoogleReview[] }) 
   }, [inView]);
 
   return (
-    <section ref={ref} className="py-32 px-6 bg-background">
+    <section ref={ref} className="py-16 md:py-32 px-4 sm:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">

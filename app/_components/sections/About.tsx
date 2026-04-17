@@ -61,16 +61,13 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="relative py-32 px-6 bg-background overflow-hidden"
+      className="relative py-16 md:py-32 px-4 sm:px-6 bg-background overflow-hidden"
     >
       {/* Subtle accent */}
       <div
         aria-hidden
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-15 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #7c3aed 0%, #7c3aed33 35%, transparent 70%)" }}
       />
 
       <div className="max-w-7xl mx-auto">
@@ -79,7 +76,7 @@ export default function About() {
           About Us
         </p>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left - Text */}
           <div>
             <h2

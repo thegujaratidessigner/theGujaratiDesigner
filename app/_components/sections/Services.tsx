@@ -119,14 +119,11 @@ export default function Services({ services }: { services: ServiceItem[] }) {
   }, [inView]);
 
   return (
-    <section id="services" ref={ref} className="relative py-32 px-6 bg-background">
+    <section id="services" ref={ref} className="relative py-16 md:py-32 px-4 sm:px-6 bg-background">
       <div
         aria-hidden
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-8 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #7c3aed 0%, #7c3aed22 35%, transparent 70%)" }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -156,7 +153,7 @@ export default function Services({ services }: { services: ServiceItem[] }) {
           {services.map((service) => (
             <div
               key={service.id}
-              className="svc-card group relative p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-foreground/15 transition-all duration-500 cursor-default overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] opacity-0"
+              className="svc-card group relative p-5 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-foreground/15 transition-all duration-500 cursor-default overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] opacity-0"
             >
               <div
                 className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${service.color}`}

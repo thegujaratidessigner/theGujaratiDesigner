@@ -8,7 +8,7 @@ export default function AboutFounder() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-32 px-6 bg-background relative overflow-hidden">
+    <section ref={ref} className="py-16 md:py-32 px-4 sm:px-6 bg-background relative overflow-hidden">
       {/* Accent */}
       <div
         aria-hidden
@@ -17,7 +17,7 @@ export default function AboutFounder() {
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left — Text */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}

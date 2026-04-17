@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/admin/projects", label: "Portfolio", icon: "⬛" },
   { href: "/admin/services", label: "Services", icon: "◉" },
   { href: "/admin/packages", label: "Packages", icon: "◈" },
+  { href: "/admin/stats", label: "Hero Stats", icon: "◎" },
 ];
 
 export default function AdminNav() {

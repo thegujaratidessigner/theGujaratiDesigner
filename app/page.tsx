@@ -13,12 +13,14 @@ import { readData } from "@/lib/db";
 import { fetchGoogleReviews } from "@/lib/reviews";
 import type { FeaturedProject } from "./_components/sections/Portfolio";
 import type { ServiceItem } from "./_components/sections/Services";
+import type { StatItem } from "./api/stats/route";
 
 export default async function Home() {
-  const [featured, services, reviews] = await Promise.all([
+  const [featured, services, reviews, stats] = await Promise.all([
     readData<FeaturedProject[]>("featured.json"),
     readData<ServiceItem[]>("services.json"),
     fetchGoogleReviews(),
+    readData<StatItem[]>("stats.json"),
   ]);
 
   return (
@@ -27,7 +29,7 @@ export default async function Home() {
       <Navbar />
 
       <main>
-        <Hero />
+        <Hero stats={stats} />
 
         <SectionContainer>
           <About />
