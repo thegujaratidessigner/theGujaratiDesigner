@@ -11,6 +11,10 @@ const NAV_ITEMS = [
   { href: "/admin/services", label: "Services", icon: "◉" },
   { href: "/admin/packages", label: "Packages", icon: "◈" },
   { href: "/admin/stats", label: "Hero Stats", icon: "◎" },
+  { href: "/admin/faq", label: "FAQ", icon: "?" },
+  { href: "/admin/testimonials", label: "Testimonials", icon: "★" },
+  { href: "/admin/about-content", label: "About Content", icon: "◑" },
+  { href: "/admin/site-settings", label: "Site Settings", icon: "⚙" },
 ];
 
 export default function AdminNav() {

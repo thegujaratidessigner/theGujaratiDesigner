@@ -9,10 +9,21 @@ import type { StatItem } from "@/app/api/stats/route";
 
 const HeroScene = dynamic(() => import("../HeroScene"), { ssr: false });
 
-const rotatingWords = ["Convert", "Inspire", "Dominate", "Captivate"];
+import type { HeroSettings } from "@/app/api/hero-settings/route";
 
-export default function Hero({ stats }: { stats: StatItem[] }) {
+export default function Hero({ stats, heroSettings }: { stats: StatItem[]; heroSettings: HeroSettings }) {
+  const rotatingWords = heroSettings.rotatingWords.length > 0 ? heroSettings.rotatingWords : ["Convert", "Inspire", "Dominate", "Captivate"];
   const [wordIndex, setWordIndex] = useState(0);
+  const [showScene, setShowScene] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    // pointer:fine = mouse (real desktop/laptop). pointer:coarse = touchscreen.
+    // This correctly returns false even when a phone requests "Desktop Site" in browser.
+    const isRealDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    setShowScene(isRealDesktop);
+    setIsDesktop(isRealDesktop);
+  }, []);
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
   const orb1Ref = useRef<HTMLDivElement>(null);
@@ -126,49 +137,62 @@ export default function Hero({ stats }: { stats: StatItem[] }) {
     };
 
     window.addEventListener("curtain:open", startAnimation, { once: true });
-    return () => window.removeEventListener("curtain:open", startAnimation);
+    // Fallback: if curtain:open fired before this listener attached (slow network), start after 4s
+    const fallback = setTimeout(startAnimation, 4000);
+    return () => {
+      window.removeEventListener("curtain:open", startAnimation);
+      clearTimeout(fallback);
+    };
   }, []);
 
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex flex-col items-center overflow-hidden bg-background"
+      className={`relative flex flex-col items-center overflow-hidden bg-background ${isDesktop ? "min-h-screen pb-0" : "min-h-0 pb-8"}`}
     >
-      {/* ── Gradient orbs (parallax targets) ── */}
-      <div
-        ref={orb1Ref}
-        aria-hidden
-        className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full opacity-25 pointer-events-none will-change-transform"
-        style={{ background: "radial-gradient(circle, #7c3aed 0%, #7c3aed44 30%, transparent 70%)" }}
-      />
-      <div
-        ref={orb2Ref}
-        aria-hidden
-        className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] rounded-full opacity-20 pointer-events-none will-change-transform"
-        style={{ background: "radial-gradient(circle, #ec4899 0%, #ec489944 30%, transparent 70%)" }}
-      />
+      {/* ── Gradient orbs — only on real desktop/laptop (pointer: fine) ── */}
+      {isDesktop && (
+        <div
+          ref={orb1Ref}
+          aria-hidden
+          className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full opacity-25 pointer-events-none will-change-transform"
+          style={{ background: "radial-gradient(circle, #7c3aed 0%, #7c3aed44 30%, transparent 70%)" }}
+        />
+      )}
+      {isDesktop && (
+        <div
+          ref={orb2Ref}
+          aria-hidden
+          className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] rounded-full opacity-20 pointer-events-none will-change-transform"
+          style={{ background: "radial-gradient(circle, #ec4899 0%, #ec489944 30%, transparent 70%)" }}
+        />
+      )}
 
       {/* ── 3D Scene ── */}
-      <div className="absolute inset-0" aria-hidden>
-        <HeroScene />
-      </div>
+      {showScene && (
+        <div className="absolute inset-0" aria-hidden>
+          <HeroScene />
+        </div>
+      )}
 
       {/* Grid overlay */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
+      {isDesktop && (
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+      )}
 
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-6xl mx-auto text-center pt-36 px-6">
+      <div className={`relative z-10 w-full max-w-6xl mx-auto text-center px-3 sm:px-6 ${isDesktop ? "pt-36" : "pt-24"}`}>
         {/* Badge */}
-        <div className="hero-badge inline-flex items-center gap-2 mb-6 opacity-0">
+        <div className="hero-badge inline-flex items-center gap-2 mb-3 md:mb-6 opacity-0">
           <span className="w-2 h-2 rounded-full bg-[#a855f7] animate-pulse" />
           <span className="text-sm text-muted tracking-widest uppercase">
             Creative Design Studio · Ahmedabad
@@ -178,7 +202,7 @@ export default function Hero({ stats }: { stats: StatItem[] }) {
         {/* Headline — character-by-character reveal */}
         <div ref={headlineRef}>
           <h1
-            className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight mb-6 text-foreground"
+            className={`font-extrabold leading-[1.05] tracking-tight mb-4 text-foreground ${isDesktop ? "text-7xl xl:text-8xl" : "text-[2rem] sm:text-5xl"}`}
             style={{ fontFamily: "var(--font-syne)" }}
           >
             <span className="block overflow-hidden pb-1">
@@ -187,7 +211,7 @@ export default function Hero({ stats }: { stats: StatItem[] }) {
             <span className="block overflow-hidden pb-1">
               <SplitChars text="That" />
             </span>
-            <span className="relative inline-block overflow-hidden align-bottom h-[1.15em]">
+            <span className="relative block overflow-hidden h-[1.2em]">
               <AnimatePresence mode="wait">
                 <AnimatedWord key={wordIndex} word={rotatingWords[wordIndex]} />
               </AnimatePresence>
@@ -196,13 +220,13 @@ export default function Hero({ stats }: { stats: StatItem[] }) {
         </div>
 
         {/* Subtext */}
-        <p className="hero-subtext text-lg md:text-xl text-muted max-w-3xl mx-auto mt-8 leading-relaxed opacity-0">
+        <p className="hero-subtext text-lg md:text-xl text-muted max-w-3xl mx-auto mt-4 md:mt-8 leading-relaxed opacity-0">
           From logo design to full-scale digital branding — The Gujarati
           Designer crafts visual identities that make your business unforgettable.
         </p>
 
         {/* CTAs with magnetic effect */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
+        <div className="flex flex-row flex-wrap items-center justify-center gap-4 mt-6 md:mt-12">
           <MagneticWrap>
             <Link
               href="#portfolio"
@@ -224,7 +248,7 @@ export default function Hero({ stats }: { stats: StatItem[] }) {
         {/* Stats with counters */}
         <div
           ref={statsRef}
-          className="hero-stats flex items-center justify-center gap-8 sm:gap-16 mt-14 pt-8 border-t border-[var(--border-subtle)] opacity-0"
+          className="hero-stats flex flex-wrap items-center justify-center gap-8 sm:gap-16 mt-6 md:mt-14 pt-6 md:pt-8 border-t border-[var(--border-subtle)] opacity-0"
         >
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
@@ -242,12 +266,12 @@ export default function Hero({ stats }: { stats: StatItem[] }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — only on real desktop */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: isDesktop ? 1 : 0 }}
         transition={{ delay: 2.6, duration: 0.6 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className={`absolute bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 ${isDesktop ? "flex" : "hidden"}`}
       >
         <span className="text-xs text-muted tracking-widest uppercase">Scroll</span>
         <motion.div

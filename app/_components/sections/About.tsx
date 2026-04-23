@@ -7,14 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const highlights = [
-  { label: "Founded", value: "2018" },
-  { label: "Based in", value: "Ahmedabad" },
-  { label: "Serving", value: "Global" },
-  { label: "Founder", value: "Kunal Thacker" },
-];
+import type { Highlight } from "@/app/api/about-highlights/route";
 
-export default function About() {
+export default function About({ highlights }: { highlights: Highlight[] }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const hasAnimated = useRef(false);
@@ -61,7 +56,7 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="relative py-16 md:py-32 px-4 sm:px-6 bg-background overflow-hidden"
+      className="relative py-8 md:py-32 px-4 sm:px-6 bg-background overflow-hidden"
     >
       {/* Subtle accent */}
       <div

@@ -77,7 +77,7 @@ export default function GraphicsPortfolio({ projects }: { projects: GraphicsProj
               Our Creative Work
             </div>
             <h1
-              className="text-5xl md:text-6xl font-extrabold leading-tight text-foreground mb-4"
+              className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-foreground mb-4"
               style={{ fontFamily: "var(--font-syne)" }}
             >
               Graphics{" "}
@@ -132,12 +132,13 @@ export default function GraphicsPortfolio({ projects }: { projects: GraphicsProj
                   className="group relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] hover:border-foreground/15 transition-all duration-500 cursor-pointer"
                   onClick={() => setLightbox(project.image)}
                 >
-                  <div className={`relative h-72 ${project.bg} overflow-hidden`}>
+                  <div className={`relative ${project.bg} overflow-hidden`}>
                     <Image
                       src={project.image}
                       alt={project.title}
-                      fill
-                      className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                      width={800}
+                      height={1200}
+                      className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority={i < 3}
                     />

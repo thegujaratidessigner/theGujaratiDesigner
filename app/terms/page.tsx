@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Navbar from "../_components/Navbar";
 import Footer from "../_components/sections/Footer";
+import { readDataOr } from "@/lib/db";
+import type { FooterLinks } from "../api/footer-links/route";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions – The Gujarati Designer",
@@ -167,7 +169,8 @@ const sections = [
   },
 ];
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const footerLinks = await readDataOr<FooterLinks>("footer-links.json", {});
   return (
     <>
       <Navbar />
@@ -265,7 +268,7 @@ export default function TermsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer footerLinks={footerLinks} />
     </>
   );
 }

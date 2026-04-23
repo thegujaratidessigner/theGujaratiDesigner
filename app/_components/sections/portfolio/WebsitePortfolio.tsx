@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { isSafeHref } from "@/lib/validation";
 
 export type WebsiteProject = {
   id: string;
@@ -79,7 +80,7 @@ export default function WebsitePortfolio({ projects }: { projects: WebsiteProjec
               Web Design & Development
             </div>
             <h1
-              className="text-5xl md:text-6xl font-extrabold leading-tight text-foreground mb-4"
+              className="text-3xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-foreground mb-4"
               style={{ fontFamily: "var(--font-syne)" }}
             >
               Website{" "}
@@ -126,7 +127,7 @@ export default function WebsitePortfolio({ projects }: { projects: WebsiteProjec
               {filtered.map((project, i) => (
                 <motion.a
                   key={project.id}
-                  href={project.href}
+                  href={isSafeHref(project.href) ? project.href : "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   layout
@@ -156,7 +157,7 @@ export default function WebsitePortfolio({ projects }: { projects: WebsiteProjec
                   <div className="p-5 bg-[var(--card-bg)] group-hover:bg-[var(--card-bg-hover)] transition-colors duration-300">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs text-muted tracking-widest uppercase">{project.category}</span>
-                      <div className="flex gap-1.5">
+                      <div className="flex flex-wrap gap-1.5 justify-end">
                         {project.tags.map((tag) => (
                           <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-foreground/5 text-muted border border-[var(--border-color)]">
                             {tag}

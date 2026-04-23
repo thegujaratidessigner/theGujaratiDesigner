@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FeaturedProject } from "../../_components/sections/Portfolio";
 
 const EMPTY: Omit<FeaturedProject, "id"> = {
@@ -12,21 +12,37 @@ const EMPTY: Omit<FeaturedProject, "id"> = {
   gradient: "from-[#7c3aed] to-[#4c1d95]",
 };
 
-function generateId() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-
 export default function FeaturedManager({ initialFeatured }: { initialFeatured: FeaturedProject[] }) {
   const [featured, setFeatured] = useState<FeaturedProject[]>(initialFeatured);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [addingNew, setAddingNew] = useState(false);
   const [form, setForm] = useState<Omit<FeaturedProject, "id">>(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function flash(type: "ok" | "err", text: string) {
     setMsg({ type, text });
     setTimeout(() => setMsg(null), 3000);
+  }
+
+  async function uploadImage(file: File) {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("folder", "featured");
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      setForm((f) => ({ ...f, image: json.url }));
+      flash("ok", "Image uploaded");
+    } catch (e: unknown) {
+      flash("err", e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function save(list: FeaturedProject[]) {
@@ -68,7 +84,7 @@ export default function FeaturedManager({ initialFeatured }: { initialFeatured: 
   async function submitForm() {
     if (!form.title || !form.category || !form.image) return;
     if (addingNew) {
-      const newItem: FeaturedProject = { ...form, id: generateId() };
+      const newItem: FeaturedProject = { ...form, id: crypto.randomUUID() };
       await save([...featured, newItem]);
       cancelForm();
     } else if (editingId) {
@@ -122,7 +138,39 @@ export default function FeaturedManager({ initialFeatured }: { initialFeatured: 
             <Field label="Category" value={form.category} onChange={(v) => setForm((f) => ({ ...f, category: v }))} placeholder="e.g. Brand Identity" required />
           </div>
           <Field label="Description" value={form.description} onChange={(v) => setForm((f) => ({ ...f, description: v }))} placeholder="Short description shown below the title" textarea />
-          <Field label="Image path" value={form.image} onChange={(v) => setForm((f) => ({ ...f, image: v }))} placeholder="/portfolio/graphics/brand-identity-1.png" required />
+          <div>
+            <label className="block text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">
+              Image path <span className="text-[#ec4899] ml-1">*</span>
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={form.image}
+                onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
+                placeholder="/portfolio/graphics/brand-identity-1.png"
+                className="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 text-sm focus:outline-none focus:border-[#7c3aed]/60 transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/60 text-sm hover:bg-white/10 hover:text-white disabled:opacity-40 transition-all whitespace-nowrap"
+              >
+                {uploading ? "Uploading…" : "Upload"}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+                className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadImage(f); e.target.value = ""; }}
+              />
+            </div>
+            {form.image && form.image.startsWith("http") && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={form.image} alt="preview" className="mt-2 h-20 w-auto rounded-lg object-cover opacity-80" />
+            )}
+          </div>
           <div className="grid md:grid-cols-2 gap-4">
             <Field label="Accent colour" value={form.accent} onChange={(v) => setForm((f) => ({ ...f, accent: v }))} placeholder="#a855f7" />
             <Field label="Gradient classes" value={form.gradient} onChange={(v) => setForm((f) => ({ ...f, gradient: v }))} placeholder="from-[#7c3aed] to-[#4c1d95]" />

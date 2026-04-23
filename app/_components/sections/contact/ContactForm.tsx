@@ -18,7 +18,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-background relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-24 px-4 sm:px-6 bg-background relative overflow-hidden">
       <div
         aria-hidden
         className="absolute right-0 bottom-0 w-[400px] h-[400px] opacity-8 pointer-events-none"

@@ -11,30 +11,31 @@ export default function CurtainReveal() {
   useEffect(() => {
     if (!topRef.current || !botRef.current) return;
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        window.dispatchEvent(new CustomEvent("curtain:open"));
-        setDone(true);
-      },
-    });
+    // Kill any previously running tweens on these elements (StrictMode double-invoke)
+    gsap.killTweensOf([topRef.current, botRef.current]);
 
-    // Phase 1: doors slam in
-    tl.fromTo(
-      topRef.current,
-      { yPercent: -100 },
-      { yPercent: 0, duration: 0.55, ease: "power4.inOut" },
-      0
-    );
-    tl.fromTo(
-      botRef.current,
-      { yPercent: 100 },
-      { yPercent: 0, duration: 0.55, ease: "power4.inOut" },
-      0
-    );
+    let opened = false;
+    const open = () => {
+      if (opened) return;
+      opened = true;
+      window.dispatchEvent(new CustomEvent("curtain:open"));
+      setDone(true);
+    };
 
-    // Phase 2: doors split open
+    const tl = gsap.timeline({ onComplete: open });
+
+    tl.fromTo(topRef.current, { yPercent: -100 }, { yPercent: 0, duration: 0.55, ease: "power4.inOut" }, 0);
+    tl.fromTo(botRef.current, { yPercent: 100 }, { yPercent: 0, duration: 0.55, ease: "power4.inOut" }, 0);
     tl.to(topRef.current, { yPercent: -100, duration: 0.65, ease: "power4.inOut" }, "+=0.06");
     tl.to(botRef.current, { yPercent: 100, duration: 0.65, ease: "power4.inOut" }, "<");
+
+    // Safety fallback — if GSAP stalls for any reason, force-open after 3s
+    const fallback = setTimeout(open, 2000);
+
+    return () => {
+      tl.kill();
+      clearTimeout(fallback);
+    };
   }, []);
 
   if (done) return null;

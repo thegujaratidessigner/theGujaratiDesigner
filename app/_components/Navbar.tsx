@@ -126,7 +126,7 @@ export default function Navbar() {
         }`}
         style={scrolled ? { background: "var(--nav-bg)" } : undefined}
       >
-        <div className="max-w-7xl mx-auto px-8 lg:px-12 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image

@@ -52,17 +52,21 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
     const panels = sectionRef.current.querySelectorAll<HTMLElement>(".featured-panel");
     if (panels.length === 0) return;
 
+    const isMobile = window.innerWidth < 768;
+
     const ctx = gsap.context(() => {
-      panels.forEach((panel, i) => {
-        if (i === panels.length - 1) return;
-        ScrollTrigger.create({
-          trigger: panel,
-          start: "top top",
-          end: "bottom top",
-          pin: true,
-          pinSpacing: false,
+      if (!isMobile) {
+        panels.forEach((panel, i) => {
+          if (i === panels.length - 1) return;
+          ScrollTrigger.create({
+            trigger: panel,
+            start: "top top",
+            end: "bottom top",
+            pin: true,
+            pinSpacing: false,
+          });
         });
-      });
+      }
 
       panels.forEach((panel) => {
         const img = panel.querySelector(".panel-img");
@@ -118,7 +122,7 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
         style={{ background: "radial-gradient(circle, #ec4899 0%, #ec489922 35%, transparent 70%)" }}
       />
 
-      <div ref={headerRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-16 md:pt-32 pb-12 md:pb-20">
+      <div ref={headerRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-10 md:pt-32 pb-8 md:pb-20">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <p className="port-label text-sm text-[#7c3aed] font-semibold tracking-widest uppercase mb-4 opacity-0">
@@ -145,7 +149,7 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
       {featured.map((project, i) => (
         <div
           key={project.id}
-          className="featured-panel relative min-h-screen flex items-center bg-background"
+          className="featured-panel relative min-h-0 md:min-h-screen flex items-center bg-background py-16 md:py-0"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 w-full">
             <div

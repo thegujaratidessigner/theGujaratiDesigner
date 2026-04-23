@@ -11,7 +11,7 @@ const stats = [
 
 export default function ServicesHero() {
   return (
-    <section className="relative bg-background pt-32 pb-20 px-6 overflow-hidden">
+    <section className="relative bg-background pt-32 pb-20 px-4 sm:px-6 overflow-hidden">
       {/* Background orbs */}
       <div
         aria-hidden

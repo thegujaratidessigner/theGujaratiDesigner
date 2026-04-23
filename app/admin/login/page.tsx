@@ -10,7 +10,8 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") ?? "/admin";
+  const raw = searchParams.get("from") ?? "/admin";
+  const from = /^\/admin(\/|$)/.test(raw) ? raw : "/admin";
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();

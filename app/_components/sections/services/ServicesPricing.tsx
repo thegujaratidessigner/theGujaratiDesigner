@@ -55,6 +55,10 @@ type CategoryId = (typeof CATEGORIES)[number]["id"];
 /* ─── Package Card ──────────────────────────────────────────────────────── */
 
 function PackageCard({ name, price, description, features, popular, featured, accent, startingFrom, duration, index }: PackageItem & { index: number }) {
+  const priceText = price != null ? `₹${price.toLocaleString("en-IN")}` : "custom pricing";
+  const waText = encodeURIComponent(`Hi, I'm interested in the *${name}* package (${priceText}). Could you share more details?`);
+  const waHref = `https://wa.me/919797798984?text=${waText}`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -120,8 +124,10 @@ function PackageCard({ name, price, description, features, popular, featured, ac
           ))}
         </ul>
 
-        <Link
-          href="/contact-us"
+        <a
+          href={waHref}
+          target="_blank"
+          rel="noopener noreferrer"
           className={`mt-auto w-full py-3.5 rounded-2xl text-sm font-semibold text-center transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
             featured
               ? "bg-gradient-to-r from-[#a855f7] to-[#ec4899] text-white shadow-[0_0_24px_rgba(168,85,247,0.35)]"
@@ -131,7 +137,7 @@ function PackageCard({ name, price, description, features, popular, featured, ac
           }`}
         >
           Get Started →
-        </Link>
+        </a>
       </div>
     </motion.div>
   );
@@ -194,7 +200,7 @@ export default function ServicesPricing({ packages }: { packages: PackagesData }
   };
 
   return (
-    <section ref={ref} id="pricing" className="py-16 pb-32 px-6 bg-background">
+    <section ref={ref} id="pricing" className="py-16 pb-32 px-4 sm:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

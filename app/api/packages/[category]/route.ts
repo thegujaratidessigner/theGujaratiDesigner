@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readData, writeData, generateId } from "@/lib/db";
+import { parsePackage } from "@/lib/validation";
 
 type PackageItem = { id: string } & Record<string, unknown>;
 type AddonSection = { services: PackageItem[]; stationary: PackageItem[]; product: PackageItem[] };
@@ -26,7 +27,7 @@ function isAddonSection(c: string): c is AddonSectionKey {
 }
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ category: string }> }
 ) {
   const { category } = await params;
@@ -49,18 +50,28 @@ export async function POST(
   { params }: { params: Promise<{ category: string }> }
 ) {
   const { category } = await params;
-  const { section, ...body } = await request.json() as { section?: string } & Record<string, unknown>;
+  const rawBody = (await request.json().catch(() => null)) as
+    | ({ section?: string } & Record<string, unknown>)
+    | null;
+  if (!rawBody) {
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
+  const { section, ...body } = rawBody;
+  const parsed = parsePackage(body);
+  if (!parsed.ok) {
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
+  }
   const packages = await readData<PackagesFile>("packages.json");
 
   if (isMain(category)) {
-    const newPkg = { ...body, id: generateId() } as PackageItem;
+    const newPkg = { ...parsed.value, id: generateId() } as PackageItem;
     packages[category].push(newPkg);
     await writeData("packages.json", packages);
     return NextResponse.json(newPkg, { status: 201 });
   }
 
   if (category === "addon" && section && isAddonSection(section)) {
-    const newItem = { ...body, id: generateId() } as PackageItem;
+    const newItem = { ...parsed.value, id: generateId() } as PackageItem;
     packages.addon[section].push(newItem);
     await writeData("packages.json", packages);
     return NextResponse.json(newItem, { status: 201 });

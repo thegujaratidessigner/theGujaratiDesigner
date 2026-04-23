@@ -8,24 +8,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const footerLinks = {
-  Services: [
-    { label: "Logo Design", href: "#services" },
-    { label: "Website Design", href: "#services" },
-    { label: "Video Creation", href: "#services" },
-    { label: "Social Media", href: "#services" },
-    { label: "Branding Packages", href: "#services" },
-  ],
-  Company: [
-    { label: "Home", href: "/" },
-    { label: "About Us", href: "#about" },
-    { label: "Portfolio", href: "#portfolio" },
-    { label: "Contact Us", href: "#contact" },
-    { label: "Terms & Conditions", href: "/terms" },
-  ],
-};
+import type { FooterLinks } from "@/app/api/footer-links/route";
 
-export default function Footer() {
+export default function Footer({ footerLinks }: { footerLinks: FooterLinks }) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -46,18 +31,21 @@ export default function Footer() {
       );
 
       // Link columns stagger
-      gsap.fromTo(
-        ".footer-col",
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ref.current, start: "top 85%", once: true },
-        }
-      );
+      const cols = gsap.utils.toArray<Element>(".footer-col", ref.current);
+      if (cols.length) {
+        gsap.fromTo(
+          cols,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: { trigger: ref.current, start: "top 85%", once: true },
+          }
+        );
+      }
 
       // Bottom bar
       gsap.fromTo(
@@ -98,7 +86,7 @@ export default function Footer() {
             </p>
 
             {/* Email subscribe */}
-            <div className="flex gap-2 max-w-sm">
+            <div className="flex flex-wrap gap-2 max-w-sm">
               <input
                 type="email"
                 placeholder="Enter your e-mail"

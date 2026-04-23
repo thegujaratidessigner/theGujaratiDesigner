@@ -2,15 +2,16 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import type { StatItem } from "@/app/api/stats/route";
 
-const stats = [
-  { value: "12,300+", label: "Projects Completed", accent: "from-[#a855f7] to-[#7c3aed]" },
-  { value: "11,980+", label: "Happy Clients", accent: "from-[#ec4899] to-[#a855f7]" },
-  { value: "8+", label: "Years of Experience", accent: "from-[#f59e0b] to-[#ec4899]" },
-  { value: "50+", label: "Industries Served", accent: "from-[#10b981] to-[#a855f7]" },
+const ACCENTS = [
+  "from-[#a855f7] to-[#7c3aed]",
+  "from-[#ec4899] to-[#a855f7]",
+  "from-[#f59e0b] to-[#ec4899]",
+  "from-[#10b981] to-[#a855f7]",
 ];
 
-export default function AboutStats() {
+export default function AboutStats({ stats = [] }: { stats: StatItem[] }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -47,27 +48,28 @@ export default function AboutStats() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 text-center overflow-hidden group hover:border-foreground/15 transition-all duration-300"
-            >
-              {/* Top accent */}
-              <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${stat.accent} opacity-50 group-hover:opacity-80 transition-opacity`} />
-
-              <p
-                className={`text-4xl md:text-5xl font-extrabold bg-gradient-to-r ${stat.accent} bg-clip-text text-transparent mb-3`}
-                style={{ fontFamily: "var(--font-syne)" }}
+        <div className="flex flex-wrap justify-center gap-5">
+          {stats.map((stat, i) => {
+            const accent = ACCENTS[i % ACCENTS.length];
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 40 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 text-center overflow-hidden group hover:border-foreground/15 transition-all duration-300 w-[calc(50%-10px)] sm:w-56"
               >
-                {stat.value}
-              </p>
-              <p className="text-muted text-sm tracking-wide">{stat.label}</p>
-            </motion.div>
-          ))}
+                <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${accent} opacity-50 group-hover:opacity-80 transition-opacity`} />
+                <p
+                  className={`text-4xl md:text-5xl font-extrabold bg-gradient-to-r ${accent} bg-clip-text text-transparent mb-3`}
+                  style={{ fontFamily: "var(--font-syne)" }}
+                >
+                  {stat.target}{stat.suffix}
+                </p>
+                <p className="text-muted text-sm tracking-wide">{stat.label}</p>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* CTA row */}

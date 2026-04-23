@@ -3,9 +3,15 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
-export default function AboutFounder() {
+import type { FounderData } from "@/app/api/founder/route";
+
+export default function AboutFounder({ founder }: { founder: FounderData }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const initials = founder.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+  const [firstName, ...rest] = founder.name.split(" ");
+  const lastName = rest.join(" ");
 
   return (
     <section ref={ref} className="py-16 md:py-32 px-4 sm:px-6 bg-background relative overflow-hidden">
@@ -27,44 +33,27 @@ export default function AboutFounder() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 text-[#a855f7] text-xs font-semibold tracking-widest uppercase mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#a855f7]" />
-              Founder &amp; Director
+              {founder.role}
             </div>
 
             <h2
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-foreground mb-6"
               style={{ fontFamily: "var(--font-syne)" }}
             >
-              Kunal{" "}
+              {firstName}{" "}
               <span className="bg-gradient-to-r from-[#a855f7] to-[#ec4899] bg-clip-text text-transparent">
-                Thacker
+                {lastName}
               </span>
             </h2>
 
-            <p className="text-muted text-lg leading-relaxed mb-5">
-              Kunal Thacker is the Founder &amp; Director of The Gujarati Designer,
-              a globally serving creative design studio based in Ahmedabad. With
-              a strong vision for building powerful brands and years of hands-on
-              industry experience, he leads the studio with a focus on quality,
-              strategy, and creative excellence.
-            </p>
-
-            <p className="text-muted text-lg leading-relaxed mb-8">
-              Under his leadership, The Gujarati Designer has grown into a
-              trusted name for branding, logo design, graphic design, website
-              development, and digital creative solutions. His approach is deeply
-              rooted in understanding the client&apos;s business goals and crafting
-              designs that deliver real, measurable results.
-            </p>
+            {founder.bio.map((para, i) => (
+              <p key={i} className="text-muted text-lg leading-relaxed mb-5">{para}</p>
+            ))}
 
             {/* Skills/tags */}
-            <div className="flex flex-wrap gap-2">
-              {["Brand Strategy", "Logo Design", "Visual Identity", "Web Design", "Creative Direction", "Digital Marketing"].map((skill) => (
-                <span
-                  key={skill}
-                  className="text-xs px-3 py-1.5 rounded-full border border-[var(--border-color)] text-muted bg-[var(--card-bg)]"
-                >
-                  {skill}
-                </span>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {founder.skills.map((skill) => (
+                <span key={skill} className="text-xs px-3 py-1.5 rounded-full border border-[var(--border-color)] text-muted bg-[var(--card-bg)]">{skill}</span>
               ))}
             </div>
           </motion.div>
@@ -76,39 +65,17 @@ export default function AboutFounder() {
             transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center"
           >
-            {/* Card */}
             <div className="relative w-full max-w-sm">
               <div className="relative rounded-3xl overflow-hidden border border-[var(--border-color)] bg-[var(--card-bg)] aspect-[3/4]">
-                {/* Gradient bg placeholder (replace with actual photo) */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#7c3aed]/40 via-[#4c1d95]/30 to-[#ec4899]/20" />
-                <div
-                  className="absolute inset-0 opacity-5"
-                  style={{
-                    backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-                    backgroundSize: "30px 30px",
-                  }}
-                />
-                {/* Initials placeholder */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                   <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#a855f7] to-[#ec4899] flex items-center justify-center text-white text-3xl font-extrabold" style={{ fontFamily: "var(--font-syne)" }}>
-                    KT
+                    {initials}
                   </div>
-                  <p className="text-foreground font-bold text-lg" style={{ fontFamily: "var(--font-syne)" }}>Kunal Thacker</p>
-                  <p className="text-muted text-sm">Founder &amp; Director</p>
+                  <p className="text-foreground font-bold text-lg" style={{ fontFamily: "var(--font-syne)" }}>{founder.name}</p>
+                  <p className="text-muted text-sm">{founder.role}</p>
                 </div>
               </div>
-
-              {/* Floating accent card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="absolute -bottom-5 -right-5 bg-background border border-[var(--border-color)] rounded-2xl p-4 shadow-xl backdrop-blur-sm"
-              >
-                <p className="text-xs text-[#7c3aed] font-semibold uppercase tracking-widest mb-1">Founded</p>
-                <p className="text-2xl font-extrabold text-foreground" style={{ fontFamily: "var(--font-syne)" }}>2018</p>
-                <p className="text-xs text-muted">Ahmedabad, India</p>
-              </motion.div>
             </div>
           </motion.div>
         </div>

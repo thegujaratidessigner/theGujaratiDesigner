@@ -1,32 +1,32 @@
 @import "tailwindcss";
 
-/* ── Dark theme (default) ─────────────────────────── */
+/* ── Light theme (default) ────────────────────────── */
 :root {
-  --background: #0d0d0d;
-  --foreground: #ffffff;
-  --muted: #a1a1aa;
-  --accent: #7c3aed;
-  --accent-light: #a855f7;
-  --accent-pink: #ec4899;
-  --card-bg: rgba(255, 255, 255, 0.02);
-  --card-bg-hover: rgba(255, 255, 255, 0.04);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --nav-bg: rgba(13, 13, 13, 0.9);
-  --grid-line: #ffffff;
-}
-
-/* ── Light theme ──────────────────────────────────── */
-.light {
   --background: #f4f4f5;
   --foreground: #09090b;
   --muted: #71717a;
+  --accent: #7c3aed;
+  --accent-light: #a855f7;
+  --accent-pink: #ec4899;
   --card-bg: rgba(0, 0, 0, 0.03);
   --card-bg-hover: rgba(0, 0, 0, 0.05);
   --border-color: rgba(0, 0, 0, 0.1);
   --border-subtle: rgba(0, 0, 0, 0.07);
   --nav-bg: rgba(244, 244, 245, 0.9);
   --grid-line: #000000;
+}
+
+/* ── Dark theme ───────────────────────────────────── */
+.dark {
+  --background: #0d0d0d;
+  --foreground: #ffffff;
+  --muted: #a1a1aa;
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-bg-hover: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --nav-bg: rgba(13, 13, 13, 0.9);
+  --grid-line: #ffffff;
 }
 
 @theme inline {
@@ -50,6 +50,8 @@
 
 html {
   scroll-behavior: auto;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {

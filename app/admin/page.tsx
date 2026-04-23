@@ -7,13 +7,24 @@ import type { GraphicsProject } from "../_components/sections/portfolio/Graphics
 import type { PackagesData } from "../_components/sections/services/ServicesPricing";
 
 export default async function AdminDashboard() {
-  const [featured, services, websiteProjects, graphicsProjects, packages] = await Promise.all([
+  const [featuredRes, servicesRes, websiteRes, graphicsRes, packagesRes] = await Promise.allSettled([
     readData<FeaturedProject[]>("featured.json"),
     readData<ServiceItem[]>("services.json"),
     readData<WebsiteProject[]>("projects-website.json"),
     readData<GraphicsProject[]>("projects-graphics.json"),
     readData<PackagesData>("packages.json"),
   ]);
+
+  const emptyPackages: PackagesData = {
+    logo: [], combo: [], website: [], social: [],
+    addon: { services: [], stationary: [], product: [] },
+  };
+
+  const featured = featuredRes.status === "fulfilled" ? featuredRes.value : [];
+  const services = servicesRes.status === "fulfilled" ? servicesRes.value : [];
+  const websiteProjects = websiteRes.status === "fulfilled" ? websiteRes.value : [];
+  const graphicsProjects = graphicsRes.status === "fulfilled" ? graphicsRes.value : [];
+  const packages = packagesRes.status === "fulfilled" ? packagesRes.value : emptyPackages;
 
   const packageCount =
     packages.logo.length +

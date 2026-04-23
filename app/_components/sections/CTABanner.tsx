@@ -7,7 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function CTABanner() {
+import type { CtaSettings } from "@/app/api/cta/route";
+
+export default function CTABanner({ cta }: { cta: CtaSettings }) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -72,7 +74,7 @@ export default function CTABanner() {
   }, []);
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-background">
+    <section ref={ref} className="py-12 md:py-24 px-4 sm:px-6 bg-background">
       <div className="cta-card max-w-7xl mx-auto relative overflow-hidden rounded-3xl opacity-0">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#4c1d95]" />
@@ -101,16 +103,17 @@ export default function CTABanner() {
               className="cta-text text-3xl md:text-4xl font-extrabold text-white leading-tight opacity-0"
               style={{ fontFamily: "var(--font-syne)" }}
             >
-              Unique & Trendy Design
-              <br />
-              Approach — Let&apos;s Talk.
+              {cta.headline}
             </h2>
+            {cta.subtext && (
+              <p className="cta-text text-white/70 mt-3 max-w-md opacity-0">{cta.subtext}</p>
+            )}
           </div>
           <Link
-            href="#contact"
+            href={cta.buttonHref}
             className="cta-btn shrink-0 px-8 py-4 rounded-full bg-white text-[#7c3aed] font-bold text-sm tracking-wide hover:bg-white/90 transition-all duration-200 hover:scale-105 active:scale-95 inline-block opacity-0 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
           >
-            Contact Us →
+            {cta.buttonText} →
           </Link>
         </div>
       </div>

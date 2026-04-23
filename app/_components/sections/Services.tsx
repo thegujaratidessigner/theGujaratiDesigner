@@ -119,7 +119,7 @@ export default function Services({ services }: { services: ServiceItem[] }) {
   }, [inView]);
 
   return (
-    <section id="services" ref={ref} className="relative py-16 md:py-32 px-4 sm:px-6 bg-background">
+    <section id="services" ref={ref} className="relative py-16 md:py-32 px-4 sm:px-6 bg-background overflow-hidden">
       <div
         aria-hidden
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-8 pointer-events-none"

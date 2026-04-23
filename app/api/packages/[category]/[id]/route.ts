@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readData, writeData } from "@/lib/db";
+import { parsePackage } from "@/lib/validation";
 
 type PackageItem = { id: string } & Record<string, unknown>;
 type AddonSection = { services: PackageItem[]; stationary: PackageItem[]; product: PackageItem[] };
@@ -28,14 +29,24 @@ export async function PUT(
   { params }: { params: Promise<{ category: string; id: string }> }
 ) {
   const { category, id } = await params;
-  const { section, ...body } = await request.json() as { section?: string } & Record<string, unknown>;
+  const rawBody = (await request.json().catch(() => null)) as
+    | ({ section?: string } & Record<string, unknown>)
+    | null;
+  if (!rawBody) {
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  }
+  const { section, ...body } = rawBody;
+  const parsed = parsePackage(body);
+  if (!parsed.ok) {
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
+  }
   const packages = await readData<PackagesFile>("packages.json");
 
   if (isMain(category)) {
     const arr = packages[category];
     const idx = arr.findIndex((p) => p.id === id);
     if (idx < 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    arr[idx] = { ...arr[idx], ...body, id };
+    arr[idx] = { ...parsed.value, id } as PackageItem;
     await writeData("packages.json", packages);
     return NextResponse.json(arr[idx]);
   }
@@ -44,7 +55,7 @@ export async function PUT(
     const arr = packages.addon[section];
     const idx = arr.findIndex((p) => p.id === id);
     if (idx < 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    arr[idx] = { ...arr[idx], ...body, id };
+    arr[idx] = { ...parsed.value, id } as PackageItem;
     await writeData("packages.json", packages);
     return NextResponse.json(arr[idx]);
   }

@@ -1,5 +1,6 @@
 // Uses the Web Crypto API — compatible with both Edge Runtime (middleware)
 // and Node.js runtime (API route handlers).
+import { timingSafeEqual } from "crypto";
 
 export const COOKIE_NAME = "tgd_admin";
 const SESSION_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -53,8 +54,5 @@ export function checkPassword(submitted: string, correct: string): boolean {
   const b = Buffer.alloc(128);
   a.write(submitted, 0, "utf-8");
   b.write(correct, 0, "utf-8");
-  // Also check exact equality to prevent length-skipping attacks
-  return (
-    require("crypto").timingSafeEqual(a, b) && submitted === correct
-  );
+  return timingSafeEqual(a, b);
 }

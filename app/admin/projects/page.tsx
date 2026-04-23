@@ -5,10 +5,13 @@ import type { GraphicsProject } from "../../_components/sections/portfolio/Graph
 import ProjectsManager from "./_client";
 
 export default async function ProjectsPage() {
-  const [websiteProjects, graphicsProjects] = await Promise.all([
+  const [websiteRes, graphicsRes] = await Promise.allSettled([
     readData<WebsiteProject[]>("projects-website.json"),
     readData<GraphicsProject[]>("projects-graphics.json"),
   ]);
+
+  const websiteProjects = websiteRes.status === "fulfilled" ? websiteRes.value : [];
+  const graphicsProjects = graphicsRes.status === "fulfilled" ? graphicsRes.value : [];
 
   return (
     <div className="flex min-h-screen">
