@@ -28,7 +28,7 @@ import type { HeroSettings } from "./api/hero-settings/route";
 import type { CtaSettings } from "./api/cta/route";
 import type { FooterLinks } from "./api/footer-links/route";
 
-const DEFAULT_HERO: HeroSettings = { rotatingWords: ["Convert", "Inspire", "Dominate", "Captivate"] };
+const DEFAULT_HERO: HeroSettings = { rotatingWords: ["Convert", "Inspire", "Dominate", "Captivate"], headlineLine1: "We Design Brands", headlineLine2: "That" };
 const DEFAULT_CTA: CtaSettings = { headline: "Unique & Trendy Design Approach — Let's Talk.", subtext: "", buttonText: "Contact Us", buttonHref: "#contact" };
 const DEFAULT_HIGHLIGHTS: Highlight[] = [
   { id: "1", label: "Founded", value: "2018" },

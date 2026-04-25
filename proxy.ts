@@ -24,7 +24,7 @@ function buildCsp(nonce: string, isDev: boolean): string {
     `connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""}`,
     "media-src 'self'",
     "object-src 'none'",
-    "frame-src https://www.google.com https://maps.google.com",
+    "frame-src https://www.google.com https://maps.google.com https://www.youtube.com https://www.youtube-nocookie.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

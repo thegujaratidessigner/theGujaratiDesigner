@@ -6,7 +6,7 @@ import type { ContactSettings } from "@/app/api/contact-settings/route";
 import type { FooterLinks } from "@/app/api/footer-links/route";
 import SiteSettingsManager from "./_client";
 
-const DEFAULT_HERO: HeroSettings = { rotatingWords: ["Convert", "Inspire", "Dominate", "Captivate"] };
+const DEFAULT_HERO: HeroSettings = { rotatingWords: ["Convert", "Inspire", "Dominate", "Captivate"], headlineLine1: "We Design Brands", headlineLine2: "That" };
 const DEFAULT_CTA: CtaSettings = { headline: "Ready to Build a Brand That Converts?", subtext: "", buttonText: "Start Your Project", buttonHref: "/contact-us" };
 const DEFAULT_CONTACT: ContactSettings = { mapsEmbedUrl: "" };
 const DEFAULT_FOOTER: FooterLinks = {};

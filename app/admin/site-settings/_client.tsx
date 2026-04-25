@@ -23,7 +23,11 @@ function Field({ label, value, onChange, placeholder, textarea }: { label: strin
 // ── Hero ──────────────────────────────────────────────────────────────────────
 
 function HeroEditor({ initial }: { initial: HeroSettings }) {
-  const [form, setForm] = useState<HeroSettings>(initial);
+  const [form, setForm] = useState<HeroSettings>({
+    ...initial,
+    headlineLine1: initial.headlineLine1 ?? "We Design Brands",
+    headlineLine2: initial.headlineLine2 ?? "That",
+  });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
@@ -41,9 +45,13 @@ function HeroEditor({ initial }: { initial: HeroSettings }) {
 
   return (
     <div className="rounded-2xl border border-white/8 bg-white/3 p-6 space-y-4">
-      <h2 className="text-sm font-bold text-white">Hero — Rotating Words</h2>
-      <p className="text-xs text-white/40">Words that cycle in the hero headline. One per line.</p>
+      <h2 className="text-sm font-bold text-white">Hero</h2>
       {msg && <Toast msg={msg} />}
+      <div className="grid md:grid-cols-2 gap-4">
+        <Field label="Headline Line 1" value={form.headlineLine1 ?? ""} onChange={(v) => setForm((f) => ({ ...f, headlineLine1: v }))} placeholder="We Design Brands" />
+        <Field label="Headline Line 2" value={form.headlineLine2 ?? ""} onChange={(v) => setForm((f) => ({ ...f, headlineLine2: v }))} placeholder="That" />
+      </div>
+      <p className="text-xs text-white/40">Rotating words — cycle after "Line 2". One per line.</p>
       <textarea
         rows={5}
         value={form.rotatingWords.join("\n")}

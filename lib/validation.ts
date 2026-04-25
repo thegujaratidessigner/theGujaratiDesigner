@@ -326,12 +326,19 @@ export function parseCta(body: unknown): ParseResult<{
   };
 }
 
-export function parseHeroSettings(body: unknown): ParseResult<{ rotatingWords: string[] }> {
+export function parseHeroSettings(body: unknown): ParseResult<{ rotatingWords: string[]; headlineLine1: string; headlineLine2: string }> {
   if (!body || typeof body !== "object") return bad("Invalid hero settings");
   const b = body as Record<string, unknown>;
   const words = safeStrArray(b.rotatingWords, 10);
   if (words.length === 0) return bad("At least one rotating word is required");
-  return { ok: true, value: { rotatingWords: words } };
+  return {
+    ok: true,
+    value: {
+      rotatingWords: words,
+      headlineLine1: safeStr(b.headlineLine1 as unknown),
+      headlineLine2: safeStr(b.headlineLine2 as unknown),
+    },
+  };
 }
 
 export function parseContactSettings(body: unknown): ParseResult<{ mapsEmbedUrl: string }> {

@@ -12,6 +12,8 @@ import type { HeroSettings } from "@/app/api/hero-settings/route";
 
 export default function Hero({ stats, heroSettings }: { stats: StatItem[]; heroSettings: HeroSettings }) {
   const rotatingWords = heroSettings.rotatingWords.length > 0 ? heroSettings.rotatingWords : ["Convert", "Inspire", "Dominate", "Captivate"];
+  const line1 = heroSettings.headlineLine1 || "We Design Brands";
+  const line2 = heroSettings.headlineLine2 || "That";
   const [wordIndex, setWordIndex] = useState(0);
   const [showScene, setShowScene] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -205,10 +207,10 @@ export default function Hero({ stats, heroSettings }: { stats: StatItem[]; heroS
             style={{ fontFamily: "var(--font-syne)" }}
           >
             <span className="block overflow-hidden pb-1">
-              <SplitChars text="We Design Brands" />
+              <SplitChars text={line1} />
             </span>
             <span className="block overflow-hidden pb-1">
-              <SplitChars text="That" />
+              <SplitChars text={line2} />
             </span>
             <span className="relative block overflow-hidden h-[1.2em]">
               <AnimatePresence mode="wait">

@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { readDataOr, writeData } from "@/lib/db";
 import { parseHeroSettings } from "@/lib/validation";
 
-export type HeroSettings = { rotatingWords: string[] };
+export type HeroSettings = {
+  rotatingWords: string[];
+  headlineLine1?: string;
+  headlineLine2?: string;
+};
 
 const DEFAULT: HeroSettings = { rotatingWords: ["Convert", "Inspire", "Dominate", "Captivate"] };
 

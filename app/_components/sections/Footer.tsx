@@ -88,7 +88,7 @@ export default function Footer({ footerLinks }: { footerLinks: FooterLinks }) {
             {/* Social icons */}
             <div className="flex gap-3 mt-6">
               <a
-                href="https://facebook.com/thegujaratidesigner"
+                href="https://www.facebook.com/share/1DXzTPkeLx/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -112,7 +112,7 @@ export default function Footer({ footerLinks }: { footerLinks: FooterLinks }) {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/company/thegujaratidesigner"
+                href="https://www.linkedin.com/in/the-gujarati-designer-71a215262"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
