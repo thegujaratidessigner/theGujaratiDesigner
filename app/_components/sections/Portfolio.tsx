@@ -149,23 +149,29 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
       {featured.map((project, i) => (
         <div
           key={project.id}
-          className="featured-panel relative min-h-0 md:min-h-screen flex items-center bg-background py-16 md:py-0"
+          className="featured-panel relative min-h-0 md:min-h-screen flex items-center bg-background py-16 md:py-0 group/panel"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 w-full">
-            <div
-              className={`grid lg:grid-cols-2 gap-12 items-center`}
+            <a
+              href="https://drive.google.com/drive/folders/15WmQTvpNPtqFWbNrFG8dXmMEqgDn5_1V?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View ${project.title} on Google Drive`}
+              className={`grid lg:grid-cols-2 gap-12 items-center cursor-pointer block`}
               style={{ direction: i % 2 === 1 ? "rtl" : "ltr" }}
             >
               <div className="overflow-hidden rounded-3xl" style={{ direction: "ltr" }}>
-                <div className="panel-img relative aspect-[4/3] opacity-0">
+                <div className="panel-img relative aspect-[4/3] opacity-0 transition-all duration-500 group-hover/panel:shadow-[0_20px_60px_rgba(0,0,0,0.15)] group-hover/panel:scale-[1.01] rounded-3xl">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
                     className="object-cover object-top rounded-3xl"
                     sizes="(max-width: 1024px) 100vw, 50vw"
+                    loading="lazy"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/60 to-transparent rounded-b-3xl" />
+                  <div className="absolute inset-0 rounded-3xl bg-foreground/0 group-hover/panel:bg-foreground/5 transition-colors duration-300" />
                 </div>
               </div>
 
@@ -190,7 +196,7 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
                 </p>
 
                 <div
-                  className="panel-text-item opacity-0 flex items-center gap-2 text-sm font-semibold"
+                  className="panel-text-item opacity-0 flex items-center gap-2 text-sm font-semibold transition-all duration-200 group-hover/panel:gap-3"
                   style={{ color: project.accent }}
                 >
                   <span>View Project</span>
@@ -199,10 +205,10 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
                   </svg>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-3">
             {featured.map((_, j) => (
               <div
                 key={j}
@@ -230,14 +236,3 @@ export default function Portfolio({ featured }: { featured: FeaturedProject[] })
   );
 }
 
-function SplitWords({ text, className }: { text: string; className?: string }) {
-  return (
-    <span className={className}>
-      {text.split(" ").map((word, i) => (
-        <span key={i} className="port-word inline-block mr-[0.3em]">
-          {word}
-        </span>
-      ))}
-    </span>
-  );
-}

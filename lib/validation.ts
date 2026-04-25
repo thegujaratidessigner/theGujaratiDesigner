@@ -164,6 +164,7 @@ export function parseService(body: unknown): ParseResult<{
   tags: string[];
   color: string;
   accent: string;
+  link: string;
 }> {
   if (!body || typeof body !== "object") return bad("Invalid body");
   const b = body as Record<string, unknown>;
@@ -177,6 +178,9 @@ export function parseService(body: unknown): ParseResult<{
   const accent = b.accent == null || b.accent === "" ? "#a855f7" : (isHex(b.accent) ? (b.accent as string) : null);
   if (accent === null) return bad("Accent must be a hex colour like #a855f7");
 
+  const rawLink = b.link == null || b.link === "" ? "" : str(b.link as string, MAX_URL);
+  if (rawLink && !isSafeHref(rawLink)) return bad("Invalid link — must be http(s), mailto, or a site-relative path");
+
   return {
     ok: true,
     value: {
@@ -187,6 +191,7 @@ export function parseService(body: unknown): ParseResult<{
       tags: safeStrArray(b.tags),
       color,
       accent,
+      link: rawLink,
     },
   };
 }

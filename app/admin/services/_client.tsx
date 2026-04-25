@@ -14,6 +14,7 @@ const EMPTY: Omit<ServiceItem, "id"> = {
   tags: [],
   color: "from-[#7c3aed]/20 to-transparent",
   accent: "#a855f7",
+  link: "",
 };
 
 function generateId() {
@@ -37,7 +38,7 @@ export default function ServicesManager({ initialServices }: { initialServices: 
   function startEdit(s: ServiceItem) {
     setEditingId(s.id);
     setAddingNew(false);
-    setForm({ number: s.number, iconType: s.iconType, title: s.title, description: s.description, tags: s.tags, color: s.color, accent: s.accent });
+    setForm({ number: s.number, iconType: s.iconType, title: s.title, description: s.description, tags: s.tags, color: s.color, accent: s.accent, link: s.link ?? "" });
     setTagsInput(s.tags.join(", "));
   }
 
@@ -138,6 +139,7 @@ export default function ServicesManager({ initialServices }: { initialServices: 
 
           <Field label="Description" value={form.description} onChange={(v) => setForm((f) => ({ ...f, description: v }))} placeholder="Short description of this service" textarea />
           <Field label="Tags (comma-separated)" value={tagsInput} onChange={setTagsInput} placeholder="Logo Design, Brand Identity, Typography" />
+          <Field label="Link (URL or path — leave blank for no click)" value={form.link ?? ""} onChange={(v) => setForm((f) => ({ ...f, link: v }))} placeholder="/services#logo or https://drive.google.com/..." />
           <Field label="Hover gradient classes" value={form.color} onChange={(v) => setForm((f) => ({ ...f, color: v }))} placeholder="from-[#7c3aed]/20 to-transparent" />
 
           {/* Icon picker */}

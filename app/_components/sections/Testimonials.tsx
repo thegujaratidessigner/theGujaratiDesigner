@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useInView, motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import Image from "next/image";
@@ -15,15 +15,32 @@ const GRADIENTS = [
   "from-[#10b981] to-[#06b6d4]",
 ];
 
+const AUTO_SLIDE_MS = 3000;
+
 export default function Testimonials({ testimonials, stats = [] }: { testimonials: Testimonial[]; stats: StatItem[] }) {
   const items = testimonials;
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const hasAnimated = useRef(false);
 
-  const prev = () => setActive((a) => (a - 1 + items.length) % items.length);
-  const next = () => setActive((a) => (a + 1) % items.length);
+  const next = useCallback(() => setActive((a) => (a + 1) % items.length), [items.length]);
+  const prev = useCallback(() => setActive((a) => (a - 1 + items.length) % items.length), [items.length]);
+
+  // Auto-slide
+  useEffect(() => {
+    if (isPaused || items.length <= 1) return;
+    const id = setInterval(next, AUTO_SLIDE_MS);
+    return () => clearInterval(id);
+  }, [isPaused, next, items.length]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      setIsPaused(true);
+    }
+  }, []);
+  const handleMouseLeave = useCallback(() => setIsPaused(false), []);
 
   useEffect(() => {
     if (!inView || hasAnimated.current || !ref.current) return;
@@ -32,12 +49,7 @@ export default function Testimonials({ testimonials, stats = [] }: { testimonial
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.fromTo(".test-label", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 0);
-      tl.fromTo(
-        ".test-card",
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, stagger: 0.12 },
-        0.3
-      );
+      tl.fromTo(".test-carousel", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.3);
       tl.fromTo(".test-stats", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.3");
     }, ref);
 
@@ -63,29 +75,32 @@ export default function Testimonials({ testimonials, stats = [] }: { testimonial
           </h2>
         </div>
 
-        {/* Desktop: up to 3 columns */}
-        <div className="hidden md:grid md:grid-cols-3 gap-5">
-          {items.slice(0, 3).map((t, idx) => (
-            <ReviewCard key={t.id} review={t} gradient={GRADIENTS[idx % GRADIENTS.length]} />
-          ))}
-        </div>
-
-        {/* Mobile: carousel */}
-        <div className="md:hidden relative max-w-lg mx-auto">
-          <div className="relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 overflow-hidden min-h-[300px] flex flex-col justify-between">
+        {/* Unified carousel */}
+        <div
+          className="test-carousel opacity-0 relative max-w-2xl mx-auto"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 md:p-12 overflow-hidden min-h-[280px] flex flex-col justify-between">
+            {/* Top gradient line */}
             <div
               className="absolute top-0 left-8 right-8 h-px opacity-60"
               style={{ background: "linear-gradient(90deg, transparent, #a855f7, transparent)" }}
             />
-            <div className="absolute bottom-6 right-8 text-7xl font-serif text-foreground/5 leading-none select-none" aria-hidden>&ldquo;</div>
+            {/* Accent bar cycling with testimonial */}
+            <div className={`absolute top-0 left-0 right-0 h-1 rounded-t-3xl bg-gradient-to-r ${GRADIENTS[active % GRADIENTS.length]} opacity-70 transition-all duration-500`} />
+            {/* Decorative quote */}
+            <div className="absolute bottom-6 right-8 text-7xl font-serif text-foreground/5 leading-none select-none" aria-hidden>
+              &ldquo;
+            </div>
 
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.35 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
               >
                 <StarRow rating={items[active].rating} />
                 <p className="text-foreground/85 text-lg leading-relaxed mb-6 mt-4">
@@ -104,33 +119,38 @@ export default function Testimonials({ testimonials, stats = [] }: { testimonial
             </AnimatePresence>
           </div>
 
+          {/* Dots + nav */}
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               onClick={prev}
               className="w-9 h-9 rounded-full border border-[var(--border-color)] flex items-center justify-center text-muted hover:border-[#a855f7]/50 hover:text-foreground transition-all"
-              aria-label="Previous"
+              aria-label="Previous testimonial"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M9 11L5 7l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M9 11L5 7l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
+
             <div className="flex gap-2">
               {items.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`transition-all duration-300 rounded-full ${active === i ? "w-6 h-2 bg-[#7c3aed]" : "w-2 h-2 bg-foreground/20 hover:bg-foreground/40"}`}
+                  className={`transition-all duration-300 rounded-full ${
+                    active === i ? "w-6 h-2 bg-[#7c3aed]" : "w-2 h-2 bg-foreground/20 hover:bg-foreground/40"
+                  }`}
                   aria-label={`Go to testimonial ${i + 1}`}
                 />
               ))}
             </div>
+
             <button
               onClick={next}
               className="w-9 h-9 rounded-full border border-[var(--border-color)] flex items-center justify-center text-muted hover:border-[#a855f7]/50 hover:text-foreground transition-all"
-              aria-label="Next"
+              aria-label="Next testimonial"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
@@ -152,32 +172,6 @@ export default function Testimonials({ testimonials, stats = [] }: { testimonial
         </div>
       </div>
     </section>
-  );
-}
-
-function ReviewCard({ review, gradient }: { review: Testimonial; gradient: string }) {
-  return (
-    <div className="test-card relative rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] p-8 flex flex-col justify-between hover:border-foreground/15 transition-all duration-300 overflow-hidden group hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] opacity-0">
-      <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r ${gradient} opacity-60`} />
-      <div className="absolute bottom-6 right-8 text-7xl font-serif text-foreground/5 leading-none pointer-events-none select-none group-hover:text-foreground/8 transition-colors" aria-hidden>
-        &ldquo;
-      </div>
-      <div>
-        <StarRow rating={review.rating} />
-        <p className="text-foreground/85 text-base leading-relaxed mb-6 mt-4">
-          &ldquo;{review.text}&rdquo;
-        </p>
-      </div>
-      <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-subtle)]">
-        <Avatar review={review} gradient={gradient} />
-        <div>
-          <p className="text-foreground font-semibold text-sm">{review.author}</p>
-          {review.time && (
-            <p className="text-muted text-xs">{review.time}</p>
-          )}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -206,7 +200,7 @@ function StarRow({ rating }: { rating: number }) {
     <div className="flex gap-1">
       {Array.from({ length: 5 }).map((_, i) => (
         <svg key={i} width="15" height="15" viewBox="0 0 15 15" fill={i < rating ? "#a855f7" : "currentColor"} className={i < rating ? "" : "opacity-20"}>
-          <path d="M7.5 1l1.7 3.4 3.8.6-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.6L7.5 1z"/>
+          <path d="M7.5 1l1.7 3.4 3.8.6-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.6L7.5 1z" />
         </svg>
       ))}
     </div>

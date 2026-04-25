@@ -85,18 +85,6 @@ export default function Footer({ footerLinks }: { footerLinks: FooterLinks }) {
               branding, graphics, websites, and video content.
             </p>
 
-            {/* Email subscribe */}
-            <div className="flex flex-wrap gap-2 max-w-sm">
-              <input
-                type="email"
-                placeholder="Enter your e-mail"
-                className="flex-1 px-4 py-2.5 rounded-full bg-foreground/5 border border-[var(--border-color)] text-foreground text-sm placeholder:text-muted focus:outline-none focus:border-[#7c3aed]/60 transition-colors"
-              />
-              <button className="px-5 py-2.5 rounded-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-sm font-medium transition-all duration-200 whitespace-nowrap hover:scale-105 active:scale-95">
-                Subscribe →
-              </button>
-            </div>
-
             {/* Social icons */}
             <div className="flex gap-3 mt-6">
               <a
@@ -111,7 +99,7 @@ export default function Footer({ footerLinks }: { footerLinks: FooterLinks }) {
                 </svg>
               </a>
               <a
-                href="https://instagram.com/thegujaratidesigner"
+                href="https://www.instagram.com/the_gujarati_designer?igsh=N2JoMjk0cTZ2enl0"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"

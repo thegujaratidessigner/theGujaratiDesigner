@@ -184,8 +184,8 @@ function AddonTable({ title, items, accent, index }: { title: string; items: Add
 
 /* ─── Main Component ────────────────────────────────────────────────────── */
 
-export default function ServicesPricing({ packages }: { packages: PackagesData }) {
-  const [activeTab, setActiveTab] = useState<CategoryId>("logo");
+export default function ServicesPricing({ packages, initialTab = "logo" }: { packages: PackagesData; initialTab?: CategoryId }) {
+  const [activeTab, setActiveTab] = useState<CategoryId>(initialTab);
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 

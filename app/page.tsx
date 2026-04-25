@@ -8,6 +8,7 @@ import Services from "./_components/sections/Services";
 import CTABanner from "./_components/sections/CTABanner";
 import FAQ from "./_components/sections/FAQ";
 import Testimonials from "./_components/sections/Testimonials";
+import ContactForm from "./_components/sections/contact/ContactForm";
 import Footer from "./_components/sections/Footer";
 import SectionContainer from "./_components/SectionContainer";
 import CurtainReveal from "./_components/CurtainReveal";
@@ -66,11 +67,11 @@ export default async function Home() {
           <About highlights={highlights.status === "fulfilled" ? highlights.value : DEFAULT_HIGHLIGHTS} />
         </SectionContainer>
 
-        <Portfolio featured={featured.status === "fulfilled" ? featured.value : []} />
-
         <SectionContainer>
           <Services services={services.status === "fulfilled" ? services.value : []} />
         </SectionContainer>
+
+        <Portfolio featured={featured.status === "fulfilled" ? featured.value : []} />
 
         <SectionContainer>
           <CTABanner cta={cta.status === "fulfilled" ? cta.value : DEFAULT_CTA} />
@@ -82,6 +83,10 @@ export default async function Home() {
 
         <SectionContainer>
           <Testimonials testimonials={testimonials.status === "fulfilled" ? testimonials.value : DEFAULT_TESTIMONIALS} stats={stats.status === "fulfilled" ? stats.value : []} />
+        </SectionContainer>
+
+        <SectionContainer>
+          <ContactForm />
         </SectionContainer>
       </main>
 

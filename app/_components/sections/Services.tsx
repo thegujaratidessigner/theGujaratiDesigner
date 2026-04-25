@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { useInView } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import gsap from "gsap";
 
 /* ─── Icon types ────────────────────────────────────────────────────────── */
@@ -85,6 +86,7 @@ export type ServiceItem = {
   tags: string[];
   color: string;
   accent: string;
+  link?: string;
 };
 
 /* ─── Component ─────────────────────────────────────────────────────────── */
@@ -93,6 +95,15 @@ export default function Services({ services }: { services: ServiceItem[] }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const hasAnimated = useRef(false);
+  const router = useRouter();
+
+  const handleCardClick = useCallback((link: string) => {
+    if (link.startsWith("http")) {
+      window.open(link, "_blank", "noopener,noreferrer");
+    } else {
+      router.push(link);
+    }
+  }, [router]);
 
   useEffect(() => {
     if (!inView || hasAnimated.current || !ref.current) return;
@@ -153,7 +164,8 @@ export default function Services({ services }: { services: ServiceItem[] }) {
           {services.map((service) => (
             <div
               key={service.id}
-              className="svc-card group relative p-5 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-foreground/15 transition-all duration-500 cursor-default overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] opacity-0"
+              className={`svc-card group relative p-5 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-foreground/15 transition-all duration-500 overflow-hidden hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] opacity-0 ${service.link ? "cursor-pointer" : "cursor-default"}`}
+              onClick={service.link ? () => handleCardClick(service.link!) : undefined}
             >
               <div
                 className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${service.color}`}
@@ -162,7 +174,6 @@ export default function Services({ services }: { services: ServiceItem[] }) {
                 className="absolute top-0 left-8 w-20 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{ background: `linear-gradient(90deg, transparent, ${service.accent}, transparent)` }}
               />
-
               <div className="relative z-10">
                 <div className="flex items-start justify-between mb-6">
                   <div
@@ -182,7 +193,6 @@ export default function Services({ services }: { services: ServiceItem[] }) {
                     {service.number}
                   </span>
                 </div>
-
                 <h3
                   className="text-xl font-bold text-foreground mb-3 leading-snug"
                   style={{ fontFamily: "var(--font-syne)" }}
@@ -192,7 +202,6 @@ export default function Services({ services }: { services: ServiceItem[] }) {
                 <p className="text-muted text-sm leading-relaxed mb-6">
                   {service.description}
                 </p>
-
                 <div className="flex flex-wrap gap-2">
                   {service.tags.map((tag) => (
                     <span
@@ -221,16 +230,5 @@ export default function Services({ services }: { services: ServiceItem[] }) {
   );
 }
 
-function SplitWords({ text, className }: { text: string; className?: string }) {
-  return (
-    <span className={className}>
-      {text.split(" ").map((word, i) => (
-        <span key={i} className="svc-word inline-block mr-[0.3em]">
-          {word}
-        </span>
-      ))}
-    </span>
-  );
-}
 
 export { ServiceIcon };

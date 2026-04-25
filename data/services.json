@@ -7,7 +7,8 @@
     "description": "We build brand identities that are creative, unique, and memorable — from logo systems to brand assets that work across every medium.",
     "tags": ["Logo Design", "Brand Identity", "Typography"],
     "color": "from-[#7c3aed]/20 to-transparent",
-    "accent": "#a855f7"
+    "accent": "#a855f7",
+    "link": "/services#logo"
   },
   {
     "id": "website-design-dev",
@@ -17,7 +18,8 @@
     "description": "SEO-optimised, mobile-responsive, high-performance websites designed to improve your online visibility and generate real business leads.",
     "tags": ["UI/UX", "Web Dev", "SEO"],
     "color": "from-[#ec4899]/20 to-transparent",
-    "accent": "#ec4899"
+    "accent": "#ec4899",
+    "link": "/services#website"
   },
   {
     "id": "video-creation-editing",
@@ -27,7 +29,8 @@
     "description": "Professional video production and editing services — from explainer videos and promotional ads to social media reels and motion graphics.",
     "tags": ["Motion Graphics", "Reels", "Ads"],
     "color": "from-[#f59e0b]/20 to-transparent",
-    "accent": "#f59e0b"
+    "accent": "#f59e0b",
+    "link": ""
   },
   {
     "id": "social-media-marketing",
@@ -37,6 +40,7 @@
     "description": "Scroll-stopping visuals, engaging content, and data-driven strategies designed to grow your brand globally across all social platforms.",
     "tags": ["Content Strategy", "SMM", "Analytics"],
     "color": "from-[#10b981]/20 to-transparent",
-    "accent": "#10b981"
+    "accent": "#10b981",
+    "link": "/services#social"
   }
 ]

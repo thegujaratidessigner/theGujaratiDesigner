@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import gsap from "gsap";
 import dynamic from "next/dynamic";
 import type { StatItem } from "@/app/api/stats/route";
@@ -228,20 +227,24 @@ export default function Hero({ stats, heroSettings }: { stats: StatItem[]; heroS
         {/* CTAs with magnetic effect */}
         <div className="flex flex-row flex-wrap items-center justify-center gap-4 mt-6 md:mt-12">
           <MagneticWrap>
-            <Link
-              href="#portfolio"
-              className="hero-cta inline-flex px-8 py-4 rounded-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-semibold text-sm tracking-wide transition-all duration-200 active:scale-95 opacity-0 shadow-[0_0_0_rgba(124,58,237,0)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)]"
+            <a
+              href="https://drive.google.com/drive/folders/15WmQTvpNPtqFWbNrFG8dXmMEqgDn5_1V?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-cta inline-flex px-8 py-4 rounded-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-semibold text-sm tracking-wide transition-all duration-300 active:scale-95 opacity-0 shadow-[0_0_0_rgba(124,58,237,0)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] hover:scale-[1.03] cursor-pointer"
             >
               View Our Work
-            </Link>
+            </a>
           </MagneticWrap>
           <MagneticWrap>
-            <Link
-              href="#contact"
-              className="hero-cta inline-flex px-8 py-4 rounded-full border border-foreground/15 hover:border-foreground/30 text-foreground font-semibold text-sm tracking-wide transition-all duration-200 hover:bg-foreground/5 opacity-0"
+            <a
+              href="https://wa.me/message/ZOIT6ZOKNI4PG1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-cta inline-flex px-8 py-4 rounded-full border border-foreground/15 hover:border-foreground/30 text-foreground font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-foreground/5 opacity-0 hover:scale-[1.03] cursor-pointer"
             >
               Get In Touch
-            </Link>
+            </a>
           </MagneticWrap>
         </div>
 

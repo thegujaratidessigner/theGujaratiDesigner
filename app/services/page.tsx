@@ -15,7 +15,17 @@ export const metadata: Metadata = {
     "Explore transparent pricing for logo design, website development, social media management, branding combo packages and more. Starting from ₹399.",
 };
 
-export default async function ServicesPage() {
+const VALID_TABS = ["logo", "combo", "website", "social", "other"] as const;
+type TabId = (typeof VALID_TABS)[number];
+
+export default async function ServicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const { tab } = await searchParams;
+  const initialTab: TabId = VALID_TABS.includes(tab as TabId) ? (tab as TabId) : "logo";
+
   const [packages, footerLinks] = await Promise.allSettled([
     readData<PackagesData>("packages.json"),
     readDataOr<FooterLinks>("footer-links.json", {}),
@@ -26,7 +36,10 @@ export default async function ServicesPage() {
       <Navbar />
       <main>
         <ServicesHero />
-        <ServicesPricing packages={packages.status === "fulfilled" ? packages.value : { logo: [], combo: [], website: [], social: [], addon: { services: [], stationary: [], product: [] } }} />
+        <ServicesPricing
+          packages={packages.status === "fulfilled" ? packages.value : { logo: [], combo: [], website: [], social: [], addon: { services: [], stationary: [], product: [] } }}
+          initialTab={initialTab}
+        />
       </main>
       <Footer footerLinks={footerLinks.status === "fulfilled" ? footerLinks.value : {}} />
     </>
