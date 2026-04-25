@@ -57,8 +57,8 @@ export async function proxy(request: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Auth check: skip only for /api/auth/* (logout clears the cookie — no token needed)
-    if (!pathname.startsWith("/api/auth/")) {
+    // Auth check: skip for /api/auth/* and public endpoints (contact form)
+    if (!pathname.startsWith("/api/auth/") && pathname !== "/api/contact") {
       const token = request.cookies.get(COOKIE_NAME)?.value ?? "";
       const valid = ADMIN_SECRET ? await verifySessionToken(token, ADMIN_SECRET) : false;
       if (!valid) {
