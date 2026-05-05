@@ -109,7 +109,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Run on all routes except static files and Next.js internals
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    // Temporarily exclude /start-project to test if middleware is the issue
+    "/((?!_next/static|_next/image|favicon.ico|start-project).*)",
   ],
 };
