@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 export default function StartProjectPage() {
   return (
     <div style={{ padding: "40px", fontFamily: "system-ui" }}>
