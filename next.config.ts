@@ -26,6 +26,20 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Map the embedded /start-project Vite SPA living in /public/start-project
+  async redirects() {
+    return [
+      // Always normalize to a trailing slash so the SPA's relative asset
+      // URLs (./assets/...) resolve correctly to /start-project/assets/...
+      { source: "/start-project", destination: "/start-project/", permanent: false },
+    ];
+  },
+  async rewrites() {
+    return [
+      // Serve the SPA shell on the directory request
+      { source: "/start-project/", destination: "/start-project/index.html" },
+    ];
+  },
 };
 
 export default nextConfig;

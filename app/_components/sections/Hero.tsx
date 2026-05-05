@@ -230,6 +230,19 @@ export default function Hero({ stats, heroSettings }: { stats: StatItem[]; heroS
         <div className="flex flex-row flex-wrap items-center justify-center gap-4 mt-6 md:mt-12">
           <MagneticWrap>
             <a
+              href="/start-project"
+              className="hero-cta inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold text-sm tracking-wide transition-all duration-300 active:scale-95 opacity-0 hover:shadow-[0_0_30px_rgba(109,47,240,0.55)] hover:scale-[1.03] cursor-pointer"
+              style={{ backgroundImage: "linear-gradient(135deg, #874cff 0%, #6d2ff0 60%, #5a22ca 100%)" }}
+            >
+              Start Project
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </MagneticWrap>
+          <MagneticWrap>
+            <a
               href="https://drive.google.com/drive/folders/15WmQTvpNPtqFWbNrFG8dXmMEqgDn5_1V?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"

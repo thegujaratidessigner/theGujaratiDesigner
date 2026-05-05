@@ -150,6 +150,17 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
             <Link
+              href="/start-project"
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-white text-sm font-semibold transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(124,58,237,0.45)]"
+              style={{ backgroundImage: "linear-gradient(135deg, #874cff 0%, #6d2ff0 60%, #5a22ca 100%)" }}
+            >
+              Start Project
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </Link>
+            <Link
               href="#contact"
               className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-[#7c3aed] text-white text-sm font-semibold hover:bg-[#6d28d9] transition-colors"
             >
@@ -236,7 +247,20 @@ export default function Navbar() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: navLinks.length * 0.07 }}
+              className="flex flex-col items-center gap-3"
             >
+              <Link
+                href="/start-project"
+                onClick={() => setMenuOpen(false)}
+                className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-white text-sm font-bold shadow-[0_0_36px_rgba(109,47,240,0.55)]"
+                style={{ backgroundImage: "linear-gradient(135deg, #874cff 0%, #6d2ff0 60%, #5a22ca 100%)" }}
+              >
+                Start Project
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </Link>
               <Link
                 href="#contact"
                 onClick={() => setMenuOpen(false)}

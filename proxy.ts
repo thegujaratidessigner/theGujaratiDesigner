@@ -31,6 +31,28 @@ function buildCsp(nonce: string, isDev: boolean): string {
   ].join("; ");
 }
 
+/**
+ * Relaxed CSP for the embedded /start-project Vite SPA bundle.
+ * The static prebuilt scripts cannot carry per-request nonces, so we allow
+ * 'self' scripts and Google Fonts. Other guarantees (frame-ancestors, object-src)
+ * are kept identical to the strict CSP.
+ */
+function buildStartProjectCsp(isDev: boolean): string {
+  return [
+    "default-src 'self'",
+    `script-src 'self'${isDev ? " 'unsafe-eval'" : ""}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "connect-src 'self' https://wa.me",
+    "media-src 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const reqMethod = request.method;
@@ -70,7 +92,12 @@ export async function proxy(request: NextRequest) {
   // ── Attach per-request nonce for CSP ────────────────────────────────────
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const isDev = process.env.NODE_ENV !== "production";
-  const csp = buildCsp(nonce, isDev);
+
+  // The /start-project SPA is a prebuilt Vite bundle whose <script> tags
+  // can't carry a per-request nonce — serve a relaxed (still strict) CSP.
+  const isStartProject =
+    pathname === "/start-project" || pathname.startsWith("/start-project/");
+  const csp = isStartProject ? buildStartProjectCsp(isDev) : buildCsp(nonce, isDev);
 
   const reqHeaders = new Headers(request.headers);
   reqHeaders.set("x-nonce", nonce);
