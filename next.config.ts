@@ -28,9 +28,9 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // Serve the SPA from public/start-project-builder/index.html
-      { source: "/start-project", destination: "/start-project-builder/index.html" },
-      { source: "/start-project/:path*", destination: "/start-project-builder/:path*" },
+      // Serve the SPA from public/index.html (renamed to avoid conflict)
+      { source: "/start-project", destination: "/start-project-index.html" },
+      { source: "/start-project/:path*", destination: "/start-project-index.html" },
     ];
   },
 };
