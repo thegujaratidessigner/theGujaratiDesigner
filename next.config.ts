@@ -26,6 +26,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      // Serve the SPA from public/start-project-builder/index.html
+      { source: "/start-project", destination: "/start-project-builder/index.html" },
+      { source: "/start-project/:path*", destination: "/start-project-builder/:path*" },
+    ];
+  },
 };
 
 export default nextConfig;
