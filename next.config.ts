@@ -26,11 +26,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async rewrites() {
+  async redirects() {
     return [
-      // Serve the SPA from public/index.html (renamed to avoid conflict)
-      { source: "/start-project", destination: "/start-project-index.html" },
-      { source: "/start-project/:path*", destination: "/start-project-index.html" },
+      // Legacy /start-project URL is fully replaced by /start.
+      // 308 = permanent + preserves method/body. Query string carries automatically.
+      { source: "/start-project", destination: "/start", permanent: true },
+      { source: "/start-project/:path*", destination: "/start", permanent: true },
     ];
   },
 };

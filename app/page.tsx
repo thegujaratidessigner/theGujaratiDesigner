@@ -4,6 +4,7 @@ import Navbar from "./_components/Navbar";
 import Hero from "./_components/sections/Hero";
 import About from "./_components/sections/About";
 import Portfolio from "./_components/sections/Portfolio";
+import Reels from "./_components/sections/Reels";
 import Services from "./_components/sections/Services";
 import CTABanner from "./_components/sections/CTABanner";
 import FAQ from "./_components/sections/FAQ";
@@ -72,6 +73,10 @@ export default async function Home() {
         </SectionContainer>
 
         <Portfolio featured={featured.status === "fulfilled" ? featured.value : []} />
+
+        <SectionContainer>
+          <Reels />
+        </SectionContainer>
 
         <SectionContainer>
           <CTABanner cta={cta.status === "fulfilled" ? cta.value : DEFAULT_CTA} />

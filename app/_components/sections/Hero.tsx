@@ -230,7 +230,7 @@ export default function Hero({ stats, heroSettings }: { stats: StatItem[]; heroS
         <div className="flex flex-row flex-wrap items-center justify-center gap-4 mt-6 md:mt-12">
           <MagneticWrap>
             <a
-              href="/start-project"
+              href="/start"
               className="hero-cta inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold text-sm tracking-wide transition-all duration-300 active:scale-95 opacity-0 hover:shadow-[0_0_30px_rgba(109,47,240,0.55)] hover:scale-[1.03] cursor-pointer"
               style={{ backgroundImage: "linear-gradient(135deg, #874cff 0%, #6d2ff0 60%, #5a22ca 100%)" }}
             >

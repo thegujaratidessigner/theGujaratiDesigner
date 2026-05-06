@@ -150,7 +150,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
             <Link
-              href="/start-project"
+              href="/start"
               className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-white text-sm font-semibold transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(124,58,237,0.45)]"
               style={{ backgroundImage: "linear-gradient(135deg, #874cff 0%, #6d2ff0 60%, #5a22ca 100%)" }}
             >
@@ -250,7 +250,7 @@ export default function Navbar() {
               className="flex flex-col items-center gap-3"
             >
               <Link
-                href="/start-project"
+                href="/start"
                 onClick={() => setMenuOpen(false)}
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-full text-white text-sm font-bold shadow-[0_0_36px_rgba(109,47,240,0.55)]"
                 style={{ backgroundImage: "linear-gradient(135deg, #874cff 0%, #6d2ff0 60%, #5a22ca 100%)" }}
