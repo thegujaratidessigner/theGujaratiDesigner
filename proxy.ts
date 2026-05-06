@@ -93,11 +93,13 @@ export async function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const isDev = process.env.NODE_ENV !== "production";
 
-  // The /start-project SPA is a prebuilt Vite bundle whose <script> tags
-  // can't carry a per-request nonce — serve a relaxed (still strict) CSP.
-  const isStartProject =
-    pathname === "/start-project" || pathname.startsWith("/start-project/");
-  const csp = isStartProject ? buildStartProjectCsp(isDev) : buildCsp(nonce, isDev);
+  // The /start-project and /start SPAs are prebuilt Vite bundles whose
+  // <script> tags can't carry a per-request nonce — serve a relaxed
+  // (still strict) CSP for both.
+  const isStaticSpa =
+    pathname === "/start-project" || pathname.startsWith("/start-project/") ||
+    pathname === "/start" || pathname.startsWith("/start/");
+  const csp = isStaticSpa ? buildStartProjectCsp(isDev) : buildCsp(nonce, isDev);
 
   const reqHeaders = new Headers(request.headers);
   reqHeaders.set("x-nonce", nonce);
